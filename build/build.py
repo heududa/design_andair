@@ -1190,5 +1190,10 @@ if __name__ == "__main__":
     d = ROOT / "varianten" / "b-bunker-simulator"
     d.mkdir(parents=True, exist_ok=True)
     (d / "index.html").write_text(with_alts(simulator_version()), encoding="utf-8")
+    if SIM_FILE.exists():
+        import shutil
+        shutil.copy(SIM_FILE, d / "simulator.html")
+        (ROOT / "dist").mkdir(exist_ok=True)
+        shutil.copy(SIM_FILE, ROOT / "dist" / "simulator.html")
     print("ok", d / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
