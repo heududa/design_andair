@@ -1082,6 +1082,101 @@ def shelter_version(slug, fn):
     return h
 
 
+
+# =====================================================================
+# Variante B mit allen Gewerken, Schwerpunkt Schutzraum, mit Ernstfall-Simulator
+# =====================================================================
+SIM_URL = "https://claude.ai/artifact/NxzLuFjspGAeRJgKE5PD3P"
+SIM_FILE = ROOT / "spiel" / "simulator.html"   # liegt die Datei hier, wird das Spiel direkt eingebettet
+SIM_CSS = """
+.rows .row:first-child{padding:56px 0}
+.rows .row:first-child h3{font-size:clamp(44px,5.6vw,88px)}
+.rows .row:first-child p{color:var(--ink);font-size:19px}
+.rows .row:not(:first-child) h3{font-size:clamp(24px,2.4vw,34px);color:#C9C7C2}
+.rows .row:not(:first-child){padding:22px 0}
+.rows .row:hover h3{color:#fff}
+.tagf{display:inline-block;margin-bottom:12px;padding:5px 10px;background:var(--red);color:#fff;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.sim{background:#0A1117;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sim .wrap{display:grid;grid-template-columns:6fr 6fr;gap:64px;align-items:center}
+.sim h2{margin-bottom:24px;max-width:12ch}
+.sim p{font-size:clamp(17px,1.4vw,20px);color:#D2D0CB;max-width:44ch}
+.sim .acts{margin-top:32px}
+.simcard{display:block;border:2px solid #FF7A1A;background:#111B24;padding:28px 28px 30px;transition:transform .2s cubic-bezier(.2,.7,.2,1),background .2s}
+.simcard:hover{transform:translateY(-3px);background:#18252F}
+.simcard .k{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#FF7A1A}
+.simcard strong{display:block;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(40px,4.6vw,68px);line-height:.92;margin:10px 0 22px}
+.simcard strong em{font-style:normal;color:#FF7A1A}
+.simcard ol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.simcard li{display:flex;gap:12px;align-items:baseline;padding:14px 16px;background:#18252F;border:1px solid #2A3945;font-family:var(--cond);font-weight:600;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+.simcard li b{color:#FF7A1A;font-size:15px}
+.simcard ul{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.simcard ul li{padding:6px 10px;font-family:var(--font-body);font-weight:500;font-size:13.5px;text-transform:none;letter-spacing:0;color:#8FA1AF}
+.simframe{width:100%;height:min(860px,86vh);border:2px solid #FF7A1A;display:block;background:#0A1117}
+.simnote{margin-top:14px;font-size:14.5px;color:var(--mute)}
+.simnote a{text-decoration:underline;text-decoration-color:#FF7A1A;text-underline-offset:4px}
+.nav-links a,.logo{white-space:nowrap}
+@media (max-width:1400px) and (min-width:1241px){.nav-links{gap:18px!important;font-size:15.5px!important}.bar{gap:20px}}
+@media (max-width:1240px){.menu-btn{display:inline-flex;align-items:center}header .nav-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch!important;gap:0!important;background:var(--bg);border-bottom:1px solid var(--line);padding:8px clamp(20px,4vw,56px) 20px}header .nav-links.open{display:flex}header .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);font-size:18px}.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
+@media (max-width:900px){.sim .wrap{grid-template-columns:1fr;gap:32px}.simcard ol{grid-template-columns:1fr}.simframe{height:1100px}}
+"""
+
+
+def sim_card(href, ext=False):
+    tgt = ' target="_blank" rel="noopener"' if ext else ""
+    return f"""<a class="simcard" href="{href}"{tgt}>
+ <span class="k">{t("Andair Messe-Demo", "Andair trade fair demo")}</span>
+ <strong>Ernstfall-<em>Simulator</em></strong>
+ <ol><li><b>1</b>{t("Ernstfall", "Emergency")}</li><li><b>2</b>{t("Schleusenspiel", "Airlock game")}</li></ol>
+ <ul><li>{t("Bauart", "Construction")}</li><li>{t("Grösse", "Size")}</li><li>{t("Schutzklasse", "Protection class")}</li><li>{t("EMP-Schutz", "EMP protection")}</li><li>{t("Notstromdiesel", "Emergency diesel")}</li><li>{t("Lagekarte und Schnitt", "Situation map and section")}</li></ul>
+</a>"""
+
+
+def simulator_version():
+    global NAV
+    keep = NAV
+    NAV = [NAV[0], ("#simulator", "Simulator", "Simulator")] + NAV[1:]
+    try:
+        h = variant_b()
+    finally:
+        NAV = keep
+    h = h.replace("</style>", SIM_CSS + "\n</style>", 1)
+    # Schwerpunkt Schutzraum in der Bereichsliste
+    h = h.replace('<span class="n">01</span><h3>', '<span class="n">01</span><h3><span class="tagf">' + t("Schwerpunkt", "Core business") + "</span><br>", 1)
+    h = h.replace("Drei Fachgebiete. Ein Hersteller.", "Schutzraum zuerst. Dazu Schall und Luft.").replace(
+        "Three disciplines. One manufacturer.", "Shelter first. Plus sound and air.")
+    lead = t("Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Zwei Szenarien zum Ausprobieren.",
+             "Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. Two scenarios to try.")
+    teaser = f"""<section class="sim"><div class="wrap">
+ <div><span class="eyebrow">{t("Ausprobieren", "Try it")}</span>
+ <h2>{t("Was hält Ihr Schutzraum aus?", "What can your shelter withstand?")}</h2>
+ <p>{lead}</p>
+ <div class="acts"><a class="btn pri" href="#simulator">{t("Simulator starten", "Start the simulator")}{ARROW}</a></div></div>
+ {sim_card("#simulator")}
+</div></section>
+"""
+    marker = '<section><div class="wrap">\n <span class="eyebrow">' + t("Bereiche", "Divisions")
+    assert marker in h
+    h = h.replace(marker, teaser + marker, 1)
+    if SIM_FILE.exists():
+        stage = (f'<iframe class="simframe" src="simulator.html" title="Andair Ernstfall-Simulator" allow="fullscreen"></iframe>'
+                 f'<p class="simnote">{t("Der Simulator läuft direkt hier auf der Seite.", "The simulator runs right here on the page.")}</p>')
+    else:
+        stage = (f'<div style="max-width:720px">{sim_card(SIM_URL, True)}</div>'
+                 f'<p class="simnote">{t("Der Simulator öffnet sich in einem eigenen Fenster.", "The simulator opens in its own window.")}</p>')
+    pg = f"""<div data-page="simulator" id="simulator">
+ <div class="phero solo"><div class="wrap"><div><span class="eyebrow">{t("Ernstfall-Simulator", "Emergency simulator")}</span>
+ <h1 class="pt">{t("Was hält Ihr Schutzraum aus?", "What can your shelter withstand?")}</h1><p class="plead">{lead}</p></div></div></div>
+ <section class="sub"><div class="wrap">{stage}</div></section>
+</div>
+"""
+    m2 = '<div data-page="produkte" id="produkte">'
+    assert m2 in h
+    h = h.replace(m2, pg + m2, 1)
+    for a, b in (("Entwurf B · Bunker", "Entwurf B · Bunker · Simulator"), ("Draft B · Bunker", "Draft B · Bunker · Simulator")):
+        h = h.replace(a, b)
+    return h
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1092,4 +1187,8 @@ if __name__ == "__main__":
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(with_alts(shelter_version(slug, fn)), encoding="utf-8")
         print("ok", d / "index.html")
+    d = ROOT / "varianten" / "b-bunker-simulator"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "index.html").write_text(with_alts(simulator_version()), encoding="utf-8")
+    print("ok", d / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
