@@ -1087,7 +1087,33 @@ def shelter_version(slug, fn):
 # Variante B mit allen Gewerken, Schwerpunkt Schutzraum, mit Ernstfall-Simulator
 # =====================================================================
 SIM_URL = "https://claude.ai/artifact/GMJNwQKJbfmBgkS15NJovD"  # Verona Shelter World 3.0
-SIM_FILE = ROOT / "spiel" / "simulator.html"   # liegt die Datei hier, wird das Spiel direkt eingebettet
+SIM_SRC = ROOT / "spiel" / "simulator.html"            # Original: Verona Shelter World 3.0, unveraendert
+SIM_FILE = ROOT / "spiel" / "simulator-andair.html"   # daraus erzeugt: Andair-Fassung, wird eingebettet
+
+
+def make_sim_andair():
+    """Andair-Fassung des Spiels: Logo, Name und Farben ersetzt, Sprachwahl vom Website-Schalter gesteuert."""
+    import re
+    if not SIM_SRC.exists():
+        return
+    g = SIM_SRC.read_text(encoding="utf-8")
+    g, n = re.subn(r'<img class=\\"wm\\" alt=\\"Verona Shelters\\" src=\\"data:image/png;base64,[A-Za-z0-9+/=]+\\">',
+                   r'<span class=\\"wm awm\\">Andair AG</span>', g)
+    assert n == 18, n
+    g = g.replace("<title>Verona Shelter World 3.0</title>", "<title>Andair Ernstfall-Simulator</title>")
+    g = g.replace("Verona Shelter World 3.0 · ", "Andair AG · ")
+    for a, b in (("#ff7a1a", "#e1261c"), ("#1b0c02", "#ffffff"), ("rgba(255,122,26,", "rgba(225,38,28,"),
+                 ("#0a1117", "#0e0f10"), ("#111b24", "#191b1d"), ("#18252f", "#222527"), ("#2a3945", "#2c2f33"),
+                 ("#16232d", "#1d2023"), ("#8fa1af", "#a0a4a8"), ("rgba(10,17,23,", "rgba(14,15,16,"), ("rgba(17,27,36,", "rgba(25,27,29,")):
+        g = re.sub(re.escape(a), b, g, flags=re.I)
+    css = ("<style>/* Andair-Anpassung */.langsel{display:none!important}"
+           ".awm{width:auto!important;opacity:.6!important;font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;color:#fff;background:#e1261c;padding:4px 12px;line-height:1.1}"
+           "@media (max-width:920px){.awm{font-size:18px}}</style>")
+    assert "</head>" in g
+    g = g.replace("</head>", css + "\n</head>", 1)
+    SIM_FILE.write_text(g, encoding="utf-8")
+    print("ok", SIM_FILE, len(g) // 1024, "KB")
+
 SIM_CSS = """
 .rows .row:first-child{padding:56px 0}
 .rows .row:first-child h3{font-size:clamp(44px,5.6vw,88px)}
@@ -1121,11 +1147,22 @@ SIM_CSS = """
 """
 
 
+SIM_JS = """
+(function(){var f=document.querySelector('.simframe');if(!f)return;
+function lang(){return document.documentElement.dataset.lang==='en'?'en':'de'}
+function push(){try{var d=f.contentWindow.document,s=d.getElementById('lang-sel');if(s&&s.value!==lang()){s.value=lang();s.dispatchEvent(new Event('change',{bubbles:true}))}}catch(e){}}
+function start(){if(location.hash==='#simulator'&&!f.getAttribute('src')){try{localStorage.setItem('verona-world-lang',lang())}catch(e){}f.src=f.dataset.src}}
+f.addEventListener('load',push);window.addEventListener('hashchange',start);start();
+document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setTimeout(push,0)})});
+})();
+"""
+
+
 def sim_card(href, ext=False):
     tgt = ' target="_blank" rel="noopener"' if ext else ""
     return f"""<a class="simcard" href="{href}"{tgt}>
- <span class="k">Verona Shelter World 3.0</span>
- <strong>Shelter <em>World</em></strong>
+ <span class="k">{t("Andair Messe-Demo", "Andair trade fair demo")}</span>
+ <strong>Ernstfall-<em>Simulator</em></strong>
  <ol><li><b>1</b>{t("Ernstfall", "Emergency")}</li><li><b>2</b>{t("Schleusenspiel", "Airlock game")}</li><li><b>3</b>{t("Planspiel", "Planning game")}</li></ol>
  <ul><li>{t("Bauart", "Construction")}</li><li>{t("Grösse", "Size")}</li><li>{t("Schutzklasse", "Protection class")}</li><li>{t("EMP-Schutz", "EMP protection")}</li><li>{t("Notstromdiesel", "Emergency diesel")}</li><li>{t("Lagekarte und Schnitt", "Situation map and section")}</li></ul>
 </a>"""
@@ -1139,7 +1176,11 @@ def simulator_version():
         h = variant_b()
     finally:
         NAV = keep
-    h = h.replace("</style>", SIM_CSS + "\n</style>", 1)
+    css = SIM_CSS
+    for a, b in (("#FF7A1A", "#E1261C"), ("#0A1117", "#0E0F10"), ("#111B24", "#191B1D"), ("#18252F", "#222527"), ("#2A3945", "#2C2F33"), ("#8FA1AF", "#A0A4A8")):
+        css = css.replace(a, b)
+    css += ".simframe{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:min(920px,90vh)}#simulator .sub .wrap{max-width:none;padding-inline:0}#simulator .phero{margin-bottom:0;border-bottom:0;padding-bottom:36px}#simulator .sub{padding-bottom:0}"
+    h = h.replace("</style>", css + "\n</style>", 1)
     # Schwerpunkt Schutzraum in der Bereichsliste
     h = h.replace('<span class="n">01</span><h3>', '<span class="n">01</span><h3><span class="tagf">' + t("Schwerpunkt", "Core business") + "</span><br>", 1)
     h = h.replace("Drei Fachgebiete. Ein Hersteller.", "Schutzraum zuerst. Dazu Schall und Luft.").replace(
@@ -1158,8 +1199,8 @@ def simulator_version():
     assert marker in h
     h = h.replace(marker, teaser + marker, 1)
     if SIM_FILE.exists():
-        stage = (f'<iframe class="simframe" src="simulator.html" title="Verona Shelter World" allow="fullscreen"></iframe>'
-                 f'<p class="simnote">{t("Der Simulator läuft direkt hier auf der Seite.", "The simulator runs right here on the page.")}</p>')
+        stage = '<iframe class="simframe" data-src="simulator.html" title="Andair Ernstfall-Simulator" allow="fullscreen"></iframe>'
+        h = h.replace("</body>", "<script>" + SIM_JS + "</script>\n</body>")
     else:
         stage = (f'<div style="max-width:720px">{sim_card(SIM_URL, True)}</div>'
                  f'<p class="simnote">{t("Der Simulator öffnet sich in einem eigenen Fenster.", "The simulator opens in its own window.")}</p>')
@@ -1187,6 +1228,7 @@ if __name__ == "__main__":
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(with_alts(shelter_version(slug, fn)), encoding="utf-8")
         print("ok", d / "index.html")
+    make_sim_andair()
     d = ROOT / "varianten" / "b-bunker-simulator"
     d.mkdir(parents=True, exist_ok=True)
     (d / "index.html").write_text(with_alts(simulator_version()), encoding="utf-8")

@@ -10,7 +10,7 @@ Redesign-Entwürfe für [andair.ch](https://andair.ch): die ganze Website in dre
 
 Zusätzlich gibt es jede Variante als Schutzraum-Fassung (`varianten/<name>-schutzraum/`): nur Schutzraumtechnik, ohne Schall- und Schwingungstechnik und ohne Lufttechnik Komponenten, mit je einem neuen Logo-Entwurf (A: das A als Dach im roten Quadrat, B: Dreieck mit Eingang, C: Ring mit Dreieck im Kern).
 
-`varianten/b-bunker-simulator/` ist eine Kopie von Variante B mit allen Gewerken, Schwerpunkt Schutzraum und dem eingebetteten Spiel «Verona Shelter World 3.0» (Quelle: `spiel/simulator.html`, unverändert).
+`varianten/b-bunker-simulator/` ist eine Kopie von Variante B mit allen Gewerken, Schwerpunkt Schutzraum und dem eingebetteten Ernstfall-Simulator. Quelle ist «Verona Shelter World 3.0» (`spiel/simulator.html`, unverändert); `build/build.py` erzeugt daraus die Andair-Fassung `spiel/simulator-andair.html` (Logo, Name und Farben ersetzt, Sprache folgt dem DE/EN-Schalter der Website).
 
 `index.html` ist die Übersicht. Unter `dist/` liegt jede Variante als eine eigenständige Datei mit eingebetteten Schriften und Bildern (`python3 build/inline.py`). Die Seiten werden aus `build/build.py` erzeugt (`python3 build/build.py`); Texte, Bilder und Kontaktdaten stammen von andair.ch. Schriften liegen lokal unter `assets/fonts` (SIL Open Font License).
 
