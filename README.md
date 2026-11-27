@@ -1,6 +1,6 @@
 # design_andair
 
-Redesign-Entwürfe für die Startseite von [andair.ch](https://andair.ch), Deutsch und Englisch (umschaltbar oben rechts).
+Redesign-Entwürfe für [andair.ch](https://andair.ch): die ganze Website in drei Designs, Deutsch und Englisch (umschaltbar oben rechts). Jede Variante enthält Startseite, Schutzraumtechnik, Produkte, Schall- und Schwingungstechnik, Lufttechnik, Firma, Kontakt, Impressum und Datenschutz in einer Datei.
 
 | Variante | Richtung | Datei |
 |---|---|---|
@@ -8,9 +8,9 @@ Redesign-Entwürfe für die Startseite von [andair.ch](https://andair.ch), Deuts
 | B · Bunker | Dunkel, Beton, grosse Versalien (Barlow Condensed) | `varianten/b-bunker/index.html` |
 | C · Editorial | Warm, Serifen, Herkunft und Vertrauen (Fraunces, Instrument Sans) | `varianten/c-editorial/index.html` |
 
-`index.html` ist die Übersicht. Die Seiten werden aus `build/build.py` erzeugt (`python3 build/build.py`); Texte, Bilder und Kontaktdaten stammen von andair.ch. Schriften liegen lokal unter `assets/fonts` (SIL Open Font License).
+`index.html` ist die Übersicht. Unter `dist/` liegt jede Variante als eine eigenständige Datei mit eingebetteten Schriften und Bildern (`python3 build/inline.py`). Die Seiten werden aus `build/build.py` erzeugt (`python3 build/build.py`); Texte, Bilder und Kontaktdaten stammen von andair.ch. Schriften liegen lokal unter `assets/fonts` (SIL Open Font License).
 
-Offen: Die Fotos sind die niedrig aufgelösten Bilder der heutigen Website. Für die Umsetzung braucht es Originale in hoher Auflösung. Links führen in den Entwürfen noch auf Anker der Startseite.
+Offen: Die Fotos sind die niedrig aufgelösten Bilder der heutigen Website. Für die Umsetzung braucht es Originale in hoher Auflösung. Die Datenschutzseite verweist auf den bestehenden Text.
 
 ## Design-Skills
 

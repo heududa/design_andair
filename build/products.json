@@ -1,0 +1,227 @@
+[
+ {
+  "img": "p/00.jpg",
+  "w": 174,
+  "h": 176,
+  "de": "Explosionsschutzventile",
+  "de2": "Typ ESV 4",
+  "en": "Explosion protection valves",
+  "en2": "type ESV 4"
+ },
+ {
+  "img": "p/01.jpg",
+  "w": 127,
+  "h": 198,
+  "de": "Ventilationsinstallation",
+  "de2": "Typ VA 300",
+  "en": "Ventilating installation",
+  "en2": "type VA 300"
+ },
+ {
+  "img": "p/02.jpg",
+  "w": 120,
+  "h": 133,
+  "de": "Explosionsschutzventile",
+  "de2": "mit Luftfilter Typ ESV/VF 4",
+  "en": "Explosion protection valves",
+  "en2": "with airfilters type ESV/VF 4"
+ },
+ {
+  "img": "p/03.jpg",
+  "w": 142,
+  "h": 208,
+  "de": "NBC Survivor 40",
+  "de2": "Einheit für private Überlebensräume",
+  "en": "NBC Survivor 40",
+  "en2": "small unit for safe room"
+ },
+ {
+  "img": "p/04.jpg",
+  "w": 520,
+  "h": 307,
+  "de": "Explosionsschutzventile",
+  "de2": "Typ FC",
+  "en": "Explosion protection valves",
+  "en2": "type FC"
+ },
+ {
+  "img": "p/05.jpg",
+  "w": 119,
+  "h": 97,
+  "de": "NBC Filtereinheit",
+  "de2": "für mobile Anwendungen",
+  "en": "NBC filtration",
+  "en2": "unit for mobile applications"
+ },
+ {
+  "img": "p/06.jpg",
+  "w": 119,
+  "h": 57,
+  "de": "Explosionsschutzventile",
+  "de2": "Typ KC-T",
+  "en": "Explosion protection valves",
+  "en2": "type KC-T"
+ },
+ {
+  "img": "p/07.jpg",
+  "w": 120,
+  "h": 155,
+  "de": "Belüftungsgerät",
+  "de2": "Typ VA 2400",
+  "en": "Air handling",
+  "en2": "unit type VA 2400"
+ },
+ {
+  "img": "p/08.jpg",
+  "w": 272,
+  "h": 210,
+  "de": "Ankerwand",
+  "de2": "für Explosionsschutzventil Typ AW-T",
+  "en": "Anchor wall",
+  "en2": "for explosion protection valve type AW-T"
+ },
+ {
+  "img": "p/09.jpg",
+  "w": 175,
+  "h": 175,
+  "de": "Ventilatoren",
+  "de2": "schockresistent",
+  "en": "Fans",
+  "en2": "shock resistant"
+ },
+ {
+  "img": "p/10.jpg",
+  "w": 98,
+  "h": 95,
+  "de": "Explosionsschutzventil",
+  "de2": "für Sanitärventilation Typ ESV San-100",
+  "en": "Explosion protection valve",
+  "en2": "for sanitary vent. type ESV San-100"
+ },
+ {
+  "img": "p/11.jpg",
+  "w": 520,
+  "h": 390,
+  "de": "Diesel Generator",
+  "de2": "EMP geschützt",
+  "en": "Diesel generator",
+  "en2": "EMP protected"
+ },
+ {
+  "img": "p/12.jpg",
+  "w": 501,
+  "h": 520,
+  "de": "Explosionsschutzventil",
+  "de2": "für Abgase Typ EGV",
+  "en": "Explosion protection valve",
+  "en2": "for exhaust gases type EGV"
+ },
+ {
+  "img": "p/13.jpg",
+  "w": 520,
+  "h": 387,
+  "de": "Gasdichte Absperrklappe",
+  "de2": "Typ GAK - D",
+  "en": "Gastight shut-off valve",
+  "en2": "type GAK - D"
+ },
+ {
+  "img": "p/14.jpg",
+  "w": 457,
+  "h": 520,
+  "de": "Schutzraumabschlüsse Panzertüre, Drucktüre",
+  "de2": "",
+  "en": "Shelter closures",
+  "en2": ""
+ },
+ {
+  "img": "p/15.jpg",
+  "w": 116,
+  "h": 133,
+  "de": "Spezielle gasdichte Absperrklappe",
+  "de2": "",
+  "en": "Special gastight shut-off valves",
+  "en2": ""
+ },
+ {
+  "img": "p/16.jpg",
+  "w": 120,
+  "h": 125,
+  "de": "Schutzraumeinrichtungen",
+  "de2": "",
+  "en": "Shelter furnishing",
+  "en2": ""
+ },
+ {
+  "img": "p/17.jpg",
+  "w": 145,
+  "h": 128,
+  "de": "Mannloch",
+  "de2": "Wassertank Typ MW 55",
+  "en": "Manhole",
+  "en2": "for watertank type MW 55"
+ },
+ {
+  "img": "p/18.jpg",
+  "w": 119,
+  "h": 138,
+  "de": "Schalttafel",
+  "de2": "für elektronischen Türantrieb und Türkontrolle in Dekontaminationssystemen",
+  "en": "Switch board",
+  "en2": "for door electr. drive and door control of a decontamination system"
+ },
+ {
+  "img": "p/19.jpg",
+  "w": 119,
+  "h": 71,
+  "de": "Mauerdurchführung",
+  "de2": "für Wasser, elektrische und Luft-Systeme",
+  "en": "Wall sleeves",
+  "en2": "for water, electr. and air systems"
+ },
+ {
+  "img": "p/20.jpg",
+  "w": 369,
+  "h": 520,
+  "de": "NBC-Gasfilter",
+  "de2": "Typ GF 600",
+  "en": "NBC gasfilter",
+  "en2": "type GF 600"
+ },
+ {
+  "img": "p/21.jpg",
+  "w": 277,
+  "h": 520,
+  "de": "EMP-Türen",
+  "de2": "",
+  "en": "EMP doors",
+  "en2": ""
+ },
+ {
+  "img": "p/22.jpg",
+  "w": 123,
+  "h": 229,
+  "de": "Ventilationsinstallation",
+  "de2": "Typ VA 150",
+  "en": "Ventilating installation",
+  "en2": "type VA 150"
+ },
+ {
+  "img": "p/23.jpg",
+  "w": 506,
+  "h": 291,
+  "de": "EMP-Gitter",
+  "de2": "(waveguide) Typ HC",
+  "en": "EMP grille",
+  "en2": "(waveguide) type HC"
+ },
+ {
+  "img": "p/25.jpg",
+  "w": 90,
+  "h": 78,
+  "de": "Zubehör / diverse Komponenten",
+  "de2": "",
+  "en": "Various components",
+  "en2": ""
+ }
+]

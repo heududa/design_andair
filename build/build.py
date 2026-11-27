@@ -16,11 +16,13 @@ def t(de, en):
 
 # ---------- Inhalte (von andair.ch uebernommen) ----------
 NAV = [
-    ("#bereiche", "Bereiche", "Divisions"),
+    ("#schutzraum", "Schutzraumtechnik", "Shelter technology"),
     ("#produkte", "Produkte", "Products"),
-    ("#einsatz", "Einsatz", "Applications"),
+    ("#schall", "Schall und Schwingung", "Sound and vibration"),
+    ("#lufttechnik", "Lufttechnik", "Ventilation"),
     ("#firma", "Firma", "Company"),
 ]
+AREA_HREF = ["#schutzraum", "#schall", "#lufttechnik"]
 H1 = ("Schutzraumtechnik aus der Schweiz. Seit 1968.", "Shelter technology from Switzerland. Since 1968.")
 LEAD = (
     "Andair entwickelt und fertigt Explosionsschutzventile, ABC-Filter und Lüftungsanlagen für Schutzräume. "
@@ -36,7 +38,7 @@ FACTS = [
 ]
 AREAS = [
     ("Schutzraumtechnik", "Shelter technology",
-     "In keinem Bereich ist kompromisslose Sicherheit wichtiger als hier. Geprüft, zugelassen, zertifiziert.",
+     "In keinem Bereich ist kompromisslose Sicherheit wichtiger als hier. Geprüft, genehmigt, garantiert.",
      "No other area needs such uncompromising safety. Tested, approved, certified."),
     ("Schall- und Schwingungstechnik", "Sound and vibration damping",
      "Langjährige Erfahrung in modernster Schall- und Schwingungstechnik: innovative Lösungen mit Leistungsgarantie.",
@@ -60,17 +62,17 @@ PRODUCTS = [
      "For buildings, containers and rooms shielded against electromagnetic pulse, including HPM."),
 ]
 APPS = [
-    ("Zivilschutzanlagen", "Civil defence shelters"),
-    ("Luftschutzräume", "Air raid shelters"),
-    ("Gehärtete Untertageanlagen", "Hardened underground facilities"),
-    ("C4ISTAR-Anlagen", "C4ISTAR facilities"),
-    ("ABC-geschützte Anlagen und Biosicherheitslabors", "NBC protected facilities and bio safety labs"),
-    ("Raffinerien, Ölfelder, Offshore-Plattformen", "Refineries, oil fields, offshore platforms"),
-    ("Chemie- und Petrochemieanlagen", "Chemical and petrochemical plants"),
+    ("Zivile Schutzräume und Bunker", "Civil defence shelters"),
+    ("Streit- und Verteidigungskräfte, Armee", "Air raid shelters"),
+    ("Geschützte Produktionsstätten", "Hardened underground facilities"),
+    ("C4ISTAR-Schutzräume", "C4ISTAR facilities"),
+    ("NBC-geschützte Anlagen und Bio-Sicherheitslabors", "NBC protected facilities and bio safety labs"),
+    ("Raffinerien und Ölfelder, Off-Shore-Plattformen", "Refineries, oil fields, offshore platforms"),
+    ("Chemische und petrochemische Anlagen", "Chemical and petrochemical plants"),
     ("Kernkraftwerke", "Nuclear power plants"),
 ]
 SPIEZ = (
-    "Typengeprüft und zugelassen durch das LABOR SPIEZ des Eidgenössischen Departements für Verteidigung.",
+    "Typengetestet und anerkannt durch das Labor Spiez vom Schweizerischen Bundesamt für Bevölkerungsschutz.",
     "Type tested and approved by the SPIEZ LABORATORY of the Swiss Federal Department of Defence.",
 )
 ABOUT = (
@@ -141,7 +143,7 @@ a:hover .arr,button:hover .arr{transform:translateX(4px)}
 .lang button:hover{opacity:1}
 .lang button[aria-pressed=true]{opacity:1;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px;text-decoration-color:var(--red)}
 .menu-btn{display:none;min-height:44px;padding:0 4px;font-size:15px}
-@media (max-width:900px){
+@media (max-width:1080px){
   .menu-btn{display:inline-flex;align-items:center}
   header .nav-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch!important;gap:0!important;background:var(--bg);border-bottom:1px solid var(--line);padding:8px clamp(20px,4vw,56px) 20px}
   header .nav-links.open{display:flex}
@@ -158,6 +160,13 @@ function set(l){h.dataset.lang=l;h.lang=l;document.querySelectorAll('.lang butto
 document.querySelectorAll('img[data-alt-'+l+']').forEach(function(i){i.alt=i.getAttribute('data-alt-'+l)});try{localStorage.setItem(k,l)}catch(e){}}
 set(s==='en'?'en':'de');
 document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l)})});
+var pages=[].slice.call(document.querySelectorAll('[data-page]'));
+function go(){var n=(location.hash||'#home').slice(1),p=document.getElementById(n);
+if(!p||!p.hasAttribute('data-page')){if(document.querySelector('[data-page].on'))return;p=document.getElementById('home')}
+pages.forEach(function(x){x.classList.toggle('on',x===p)});
+document.querySelectorAll('.nav-links a').forEach(function(a){if(a.getAttribute('href')==='#'+p.id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+window.scrollTo(0,0)}
+window.addEventListener('hashchange',go);go();
 var m=document.querySelector('.menu-btn'),n=document.querySelector('.nav-links');
 if(m){m.addEventListener('click',function(){var o=n.classList.toggle('open');m.setAttribute('aria-expanded',o)});
 n.addEventListener('click',function(e){if(e.target.closest('a')){n.classList.remove('open');m.setAttribute('aria-expanded','false')}})}
@@ -179,7 +188,9 @@ def nav_links():
     return "".join(f'<a href="{h}">{t(d, e)}</a>' for h, d, e in NAV)
 
 
-def page(title, desc, fonts, css, body, theme):
+def page(title, desc, fonts, css, body, theme, kick="eyebrow"):
+    body = body.replace('<main id="main">', '<main id="main"><div data-page="home" id="home" class="on">').replace(
+        "</main>", "</div>" + subpages(kick) + "</main>")
     return f"""<!DOCTYPE html>
 <html lang="de" data-lang="de">
 <head>
@@ -192,6 +203,7 @@ def page(title, desc, fonts, css, body, theme):
 {fonts}
 {BASE_CSS}
 {css}
+{SUB_CSS}
 </style>
 </head>
 <body>
@@ -230,7 +242,7 @@ def variant_a():
 header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:32px;height:72px;position:relative}
 .logo{background:var(--red);color:#fff;font-weight:800;font-stretch:112%;font-size:19px;letter-spacing:-.01em;padding:9px 16px 8px;line-height:1}
-.nav-links{display:flex;gap:30px;margin-left:auto;align-items:center;font-size:15px;font-weight:500}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center;font-size:15px;font-weight:500}
 .nav-links a{position:relative;padding:12px 0}
 .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:6px;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
 .nav-links a:hover::after{transform:scaleX(1)}
@@ -308,8 +320,9 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}
 footer a{padding:12px 0}footer a:hover{color:#fff}
 footer .sp{margin-left:auto}
 @media (max-width:1100px){.prods{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:1080px){.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
 @media (max-width:900px){
- .bar{gap:14px;height:64px}.bar .lang{margin-left:auto}.bar>.btn{display:none}
+ .bar{height:64px}
  .hero{min-height:0}.hero-grid,.head,.apps,.firma,.kontakt .wrap{grid-template-columns:1fr;gap:28px}
  .stage{max-width:420px}
  .facts{grid-template-columns:1fr 1fr}.facts div:nth-child(3){padding-left:0;border-left:0}.facts div:nth-child(n+3){border-top:1px solid var(--line)}
@@ -321,11 +334,11 @@ footer .sp{margin-left:auto}
 """
     facts = "".join(f"<div><b>{t(d, e)}</b><span>{t(ld, le)}</span></div>" for d, e, ld, le in FACTS)
     areas = "".join(
-        f'<a class="area" href="#kontakt"><span class="mono">0{i + 1}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>'
+        f'<a class="area" href="{AREA_HREF[i]}"><span class="mono">0{i + 1}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>'
         f'<span class="more">{t("Mehr erfahren", "Read more")}{ARROW}</span></a>'
         for i, (d, e, td, te) in enumerate(AREAS))
     prods = "".join(
-        f'<a class="prod" href="#kontakt"><div class="ph{" red" if f == "esv-red.jpg" else ""}">{img(f)}</div>'
+        f'<a class="prod" href="#produkte"><div class="ph{" red" if f == "esv-red.jpg" else ""}">{img(f)}</div>'
         f'<div class="tx"><span class="mono">{t("Typ", "Type")} {code}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p></div></a>'
         for code, d, e, f, td, te in PRODUCTS)
     apps = "".join(f"<li><span>{t(d, e)}</span></li>" for d, e in APPS)
@@ -333,7 +346,7 @@ footer .sp{margin-left:auto}
     c = CONTACT
     body = f"""
 <header><div class="wrap bar">
- <a class="logo" href="#main" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -356,38 +369,38 @@ footer .sp{margin-left:auto}
  <div class="facts">{facts}</div>
 </div></div>
 
-<section id="bereiche"><div class="wrap">
+<section><div class="wrap">
  <div class="head"><span class="mono">{t("Bereiche", "Divisions")}</span><h2>{t("Drei Fachgebiete, ein Hersteller.", "Three disciplines, one manufacturer.")}</h2></div>
  <div class="areas">{areas}</div>
 </div></section>
 
-<section id="produkte" style="padding-top:0"><div class="wrap">
+<section style="padding-top:0"><div class="wrap">
  <div class="head"><span class="mono">{t("Produkte", "Products")}</span><h2>{t("Komponenten für jede Öffnung im Schutzbau.", "Components for every opening in a shelter.")}</h2></div>
  <div class="prods">{prods}</div>
 </div></section>
 
-<section id="einsatz" class="dark"><div class="wrap">
+<section class="dark"><div class="wrap">
  <div class="head"><span class="mono">{t("Einsatz", "Applications")}</span><h2>{t("Wo Andair-Komponenten Menschen und Anlagen schützen.", "Where Andair components protect people and plants.")}</h2></div>
  <div class="apps"><p>{t(*SPIEZ)}</p><ol>{apps}</ol></div>
  <div class="strip">{img("pipes-strip.jpg")}</div>
 </div></section>
 
-<section id="firma"><div class="wrap">
+<section><div class="wrap">
  <div class="head"><span class="mono">{t("Firma", "Company")}</span><h2>{t("Der Massstab für jedes Andair-Produkt.", "The measure for every Andair product.")}</h2></div>
  <div class="motto">{motto}</div>
  <div class="firma"><p>{t(*ABOUT)}</p><p class="mono" style="max-width:none">{t(*CLAIM)}</p></div>
 </div></section>
 
-<section id="kontakt" class="kontakt"><div class="wrap">
+<section class="kontakt"><div class="wrap">
  <div><span class="mono">{t("Kontakt", "Contact")}</span><h2 style="margin-top:18px">{t("Sprechen Sie mit unseren Spezialisten.", "Talk to our specialists.")}</h2></div>
  <address>Andair AG<br>{c["street"]}<br>{c["city"]}<br><br>
  {t("Telefon", "Phone")} <a href="tel:+41523042424">{c["phone"]}</a><br><a href="mailto:{c["mail"]}">{c["mail"]}</a></address>
 </div></section>
 </main>
-<footer><div class="wrap"><span>© Andair AG</span><a href="#">{t("Datenschutz", "Privacy")}</a><a href="#">{t("Impressum", "Imprint")}</a>
+<footer><div class="wrap"><span>© Andair AG</span><a href="#datenschutz">{t("Datenschutz", "Privacy")}</a><a href="#impressum">{t("Impressum", "Imprint")}</a>
 <span class="sp">{t("Entwurf A · Werkplan", "Draft A · Werkplan")}</span></div></footer>
 """
-    return page("Andair AG · Schutzraumtechnik seit 1968", LEAD[0], fonts, css, body, "#F3F2EE")
+    return page("Andair AG · Schutzraumtechnik seit 1968", LEAD[0], fonts, css + SUB_A, body, "#F3F2EE", "mono")
 
 
 # =====================================================================
@@ -404,7 +417,7 @@ def variant_b():
 header{position:sticky;top:0;z-index:20;background:rgba(14,15,16,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:stretch;gap:32px;height:76px;position:relative}
 .logo{background:var(--red);color:#fff;font-family:var(--cond);font-weight:700;font-size:26px;letter-spacing:.01em;display:flex;align-items:center;padding:0 24px;margin-left:calc(-1*clamp(20px,4vw,56px));padding-left:clamp(20px,4vw,56px)}
-.nav-links{display:flex;gap:34px;margin-left:auto;align-items:center;font-family:var(--cond);font-weight:600;font-size:18px;text-transform:uppercase;letter-spacing:.08em}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center;font-family:var(--cond);font-weight:600;font-size:17px;text-transform:uppercase;letter-spacing:.08em}
 .nav-links a{padding:12px 0;transition:color .15s}.nav-links a:hover{color:var(--red)}
 .bar .lang,.bar .menu-btn,.bar .btn{align-self:center}
 .btn{display:inline-flex;align-items:center;gap:12px;min-height:54px;padding:0 28px;font-family:var(--cond);font-weight:700;font-size:19px;text-transform:uppercase;letter-spacing:.08em;transition:background .15s,color .15s,transform .1s}
@@ -483,8 +496,9 @@ h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:cl
 .kontakt address a:hover{color:#fff}
 footer{border-top:1px solid var(--line);color:var(--mute);font-size:14px;padding:24px 0}
 footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{padding:12px 0}footer a:hover{color:#fff}footer .sp{margin-left:auto}
+@media (max-width:1080px){.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
 @media (max-width:900px){
- .bar{gap:14px;height:64px}.bar .lang{margin-left:auto}.bar>.btn{display:none}.logo{font-size:22px}
+ .bar{height:64px}.logo{font-size:22px}
  .hero{min-height:0}.hero-grid,.spiez,.firma .wrap,.kontakt .wrap{grid-template-columns:1fr;gap:32px}
  .hero-grid{padding-block:36px 48px}.shot{max-width:440px}
  .band .wrap{grid-template-columns:1fr 1fr}.band .wrap>div:nth-child(3){padding-left:0;border-left:0}.band .wrap>div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.28)}
@@ -500,12 +514,12 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 """
     facts = "".join(f"<div><b>{t(d, e)}</b><span>{t(ld, le)}</span></div>" for d, e, ld, le in FACTS)
     rows = "".join(
-        f'<a class="row" href="#kontakt"><span class="n">0{i + 1}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>{ARROW}</a>'
+        f'<a class="row" href="{AREA_HREF[i]}"><span class="n">0{i + 1}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>{ARROW}</a>'
         for i, (d, e, td, te) in enumerate(AREAS))
     pmap = {"esv-red.jpg": "t1", "gasfilter.jpg": "t3", "gak-d.jpg": "t4", "emp-door.jpg": "t2"}
     order = [PRODUCTS[0], PRODUCTS[3], PRODUCTS[1], PRODUCTS[2]]
     tiles = "".join(
-        f'<a class="tile {pmap[f]}" href="#kontakt">{img("emp-dark.jpg" if f == "emp-door.jpg" else f)}'
+        f'<a class="tile {pmap[f]}" href="#produkte">{img("emp-dark.jpg" if f == "emp-door.jpg" else f)}'
         f'<div class="tx"><span class="code">{code}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p></div></a>'
         for code, d, e, f, td, te in order)
     flow = "".join(
@@ -514,7 +528,7 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
     c = CONTACT
     body = f"""
 <header><div class="wrap bar">
- <a class="logo" href="#main" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -535,40 +549,40 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
  <div class="band"><div class="wrap">{facts}</div></div>
 </div>
 
-<section id="bereiche"><div class="wrap">
+<section><div class="wrap">
  <span class="eyebrow">{t("Bereiche", "Divisions")}</span>
  <h2>{t("Drei Fachgebiete. Ein Hersteller.", "Three disciplines. One manufacturer.")}</h2>
  <div class="rows">{rows}</div>
 </div></section>
 
-<section id="produkte"><div class="wrap">
+<section><div class="wrap">
  <span class="eyebrow">{t("Produkte", "Products")}</span>
  <h2>{t("Gebaut für den Ernstfall.", "Built for the worst case.")}</h2>
  <div class="bento">{tiles}</div>
 </div></section>
 
-<section id="einsatz"><div class="wrap">
+<section><div class="wrap">
  <span class="eyebrow">{t("Einsatz", "Applications")}</span>
  <h2>{t("Von der Bedrohung zum Schutz.", "From threat to protection.")}</h2>
  <div class="flow">{flow}</div>
  <div class="spiez"><p>{t(*SPIEZ)}</p>{img("pipes-strip.jpg")}</div>
 </div></section>
 
-<section id="firma" class="firma"><div class="wrap">
+<section class="firma"><div class="wrap">
  <h2>{t("<i>Wir schützen</i><i>Leben.</i>", "<i>We protect</i><i>lives.</i>")}</h2>
- <div><p>{t(*ABOUT)}</p><p>{t("Geprüft. Zugelassen. Zertifiziert.", "Tested. Approved. Certified.")}</p></div>
+ <div><p>{t(*ABOUT)}</p><p>{t("Geprüft. Genehmigt. Garantiert.", "Tested. Approved. Certified.")}</p></div>
 </div></section>
 
-<section id="kontakt" class="kontakt"><div class="wrap">
+<section class="kontakt"><div class="wrap">
  <div><span class="eyebrow">{t("Kontakt", "Contact")}</span><h2>{t("Ihr Projekt. Unsere Spezialisten.", "Your project. Our specialists.")}</h2></div>
  <address><b>Andair AG</b><br>{c["street"]}<br>{c["city"]}<br><br>
  {t("Telefon", "Phone")} <a href="tel:+41523042424">{c["phone"]}</a><br><a href="mailto:{c["mail"]}">{c["mail"]}</a></address>
 </div></section>
 </main>
-<footer><div class="wrap"><span>© Andair AG</span><a href="#">{t("Datenschutz", "Privacy")}</a><a href="#">{t("Impressum", "Imprint")}</a>
+<footer><div class="wrap"><span>© Andair AG</span><a href="#datenschutz">{t("Datenschutz", "Privacy")}</a><a href="#impressum">{t("Impressum", "Imprint")}</a>
 <span class="sp">{t("Entwurf B · Bunker", "Draft B · Bunker")}</span></div></footer>
 """
-    return page("Andair AG · Sicher. Einfach. Robust.", LEAD[0], fonts, css, body, "#0E0F10")
+    return page("Andair AG · Sicher. Einfach. Robust.", LEAD[0], fonts, css + SUB_B, body, "#0E0F10")
 
 
 # =====================================================================
@@ -585,7 +599,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(250,247,241,.93);backdro
 .bar{display:flex;align-items:center;gap:32px;height:80px;position:relative;border-bottom:1px solid var(--line)}
 .logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:600;font-size:24px;letter-spacing:-.01em}
 .logo::before{content:"";width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:19px solid var(--red)}
-.nav-links{display:flex;gap:32px;margin-left:auto;align-items:center;font-size:15.5px;font-weight:500}
+.nav-links{display:flex;gap:26px;margin-left:auto;align-items:center;font-size:15px;font-weight:500}
 .nav-links a{padding:12px 0;background:linear-gradient(var(--red),var(--red)) 0 calc(100% - 8px)/0 1.5px no-repeat;transition:background-size .3s cubic-bezier(.2,.7,.2,1)}
 .nav-links a:hover{background-size:100% 1.5px}
 .btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 26px;border-radius:999px;font-weight:600;font-size:15.5px;transition:background .15s,color .15s,transform .1s,box-shadow .15s}
@@ -650,8 +664,9 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.4vw,66px);lin
 footer{border-top:1px solid var(--line);color:var(--mute);font-size:14px;padding:24px 0}
 footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{padding:12px 0}footer a:hover{color:var(--ink)}footer .sp{margin-left:auto}
 @media (max-width:1000px){.pi{grid-template-columns:110px 1fr 30px;gap:18px}.pi .code{grid-column:2;grid-row:1;align-self:end}.pi h3{grid-column:2;grid-row:2}.pi p{grid-column:2/4;grid-row:3}.pi .ph{grid-row:1/3;height:100px}.pi .ph img{max-height:84px}.pi .arr{grid-row:1/3}}
+@media (max-width:1080px){.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
 @media (max-width:900px){
- .bar{gap:14px;height:64px}.bar .lang{margin-left:auto}.bar>.btn{display:none}
+ .bar{height:64px}
  .hero{min-height:0}.intro,.use,.kontakt .wrap{grid-template-columns:1fr;gap:24px}.intro p{padding-top:0}
  .trio{grid-template-columns:1fr 1fr}.trio figure:nth-child(3){display:none}.trio img{height:200px!important}
  .nums{grid-template-columns:1fr 1fr;margin-top:48px}.nums div{padding-bottom:22px}.nums div:nth-child(3){padding-left:0;border-left:0}.nums div:nth-child(n+3){border-top:1px solid var(--line)}
@@ -661,18 +676,18 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 """
     nums = "".join(f"<div><b>{t(d, e)}</b><span>{t(ld, le)}</span></div>" for d, e, ld, le in FACTS)
     cards = "".join(
-        f'<a class="card" href="#kontakt"><span class="tri" aria-hidden="true"></span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>'
+        f'<a class="card" href="{AREA_HREF[i]}"><span class="tri" aria-hidden="true"></span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>'
         f'<span class="more">{t("Mehr erfahren", "Read more")}{ARROW}</span></a>'
-        for d, e, td, te in AREAS)
+        for i, (d, e, td, te) in enumerate(AREAS))
     plist = "".join(
-        f'<a class="pi" href="#kontakt"><div class="ph{" red" if f == "esv-red.jpg" else ""}">{img(f)}</div>'
+        f'<a class="pi" href="#produkte"><div class="ph{" red" if f == "esv-red.jpg" else ""}">{img(f)}</div>'
         f'<span class="code">{code}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>{ARROW}</a>'
         for code, d, e, f, td, te in PRODUCTS)
     apps = "".join(f"<li>{t(d, e)}</li>" for d, e in APPS)
     c = CONTACT
     body = f"""
 <header><div class="wrap"><div class="bar">
- <a class="logo" href="#main" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -690,26 +705,26 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
  <div class="trio"><figure>{img("shelter.jpg", eager=True)}</figure><figure>{img("closures.jpg", eager=True)}</figure><figure>{img("pipes.jpg", eager=True)}</figure></div>
 </div></div>
 
-<section id="firma"><div class="wrap">
+<section><div class="wrap">
  <div class="intro"><div><span class="eyebrow">{t("Firma", "Company")}</span>
  <h2>{t("Ein Schweizer Spezialist mit über fünfzig Jahren Erfahrung.", "A Swiss specialist with more than fifty years of experience.")}</h2></div>
  <p>{t(*ABOUT)}</p></div>
  <div class="nums">{nums}</div>
 </div></section>
 
-<section id="bereiche" class="sand"><div class="wrap">
+<section class="sand"><div class="wrap">
  <span class="eyebrow">{t("Bereiche", "Divisions")}</span>
  <h2>{t("Drei Fachgebiete unter einem Dach.", "Three disciplines under one roof.")}</h2>
  <div class="cards">{cards}</div>
 </div></section>
 
-<section id="produkte"><div class="wrap">
+<section><div class="wrap">
  <span class="eyebrow">{t("Produkte", "Products")}</span>
  <h2>{t("Eine Auswahl aus dem Andair-Sortiment.", "A selection from the Andair range.")}</h2>
  <div class="plist">{plist}</div>
 </div></section>
 
-<section id="einsatz" class="sand"><div class="wrap use">
+<section class="sand"><div class="wrap use">
  <div><span class="eyebrow">{t("Einsatz", "Applications")}</span>
  <h2>{t("Anlagen, die auf Andair vertrauen.", "Installations that rely on Andair.")}</h2>
  <p class="note">{t(*SPIEZ)}</p></div>
@@ -719,28 +734,275 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 <section class="claim"><div class="wrap"><p>{t(*CLAIM)}</p>
  <span class="k">{t("Sicher · Einfach · Robust", "Safe · Simple · Rugged")}</span></div></section>
 
-<section id="kontakt" class="kontakt"><div class="wrap">
+<section class="kontakt"><div class="wrap">
  <div><span class="eyebrow">{t("Kontakt", "Contact")}</span><h2>{t("Wir beraten Sie gern persönlich.", "We are happy to advise you in person.")}</h2></div>
  <address><b>Andair AG</b><br>{c["street"]}<br>{c["city"]}<br><br>
  {t("Telefon", "Phone")} <a href="tel:+41523042424">{c["phone"]}</a><br><a href="mailto:{c["mail"]}">{c["mail"]}</a></address>
 </div></section>
 </main>
-<footer><div class="wrap"><span>© Andair AG</span><a href="#">{t("Datenschutz", "Privacy")}</a><a href="#">{t("Impressum", "Imprint")}</a>
+<footer><div class="wrap"><span>© Andair AG</span><a href="#datenschutz">{t("Datenschutz", "Privacy")}</a><a href="#impressum">{t("Impressum", "Imprint")}</a>
 <span class="sp">{t("Entwurf C · Editorial", "Draft C · Editorial")}</span></div></footer>
 """
-    return page("Andair AG · Wir schützen die Luft für Sie", LEAD[0], fonts, css, body, "#FAF7F1")
+    return page("Andair AG · Wir schützen die Luft für Sie", LEAD[0], fonts, css + SUB_C, body, "#FAF7F1")
 
+
+
+# =====================================================================
+# Unterseiten (in allen drei Varianten gleich aufgebaut, je Variante gestaltet)
+# =====================================================================
+import json
+PRODS = json.loads((ROOT / "build" / "products.json").read_text(encoding="utf-8"))
+FLOW_FULL = [
+    ("Bedrohungen", "Threats",
+     [("Konventionelle Kriegsführung", "Conventional warfare"), ("Nukleare Kriegsführung", "Nuclear warfare"),
+      ("Industrieunfälle", "Industrial accidents"), ("Sabotage", "Sabotage"), ("Terrorismus", "Terrorism"),
+      ("Erdbeben", "Earthquake"), ("Betriebsausfälle", "Breakdowns")]),
+    ("Gefährdung von", "Endangering of",
+     [("Bevölkerung", "Population"), ("Einrichtungen", "Facilities"),
+      ("Bewaffneten und militärischen Streitkräften", "Armed and military forces"), ("Waren", "Goods"),
+      ("Kulturgütern", "Cultural assets"), ("Infrastrukturen", "Infrastructure"), ("Zulieferungssystemen", "Supply systems")]),
+    ("Schutzraum-Einrichtungen für", "Shelter requirements for",
+     [("Schutzräume und Bunker", "Civil defence shelters"), ("Kommandoposten", "Command posts"),
+      ("Petrochemische Einrichtungen", "Petro-chemical plants"), ("Kernkraftwerke", "Nuclear power stations"),
+      ("Munition und Pyrotechnik", "Ammunition and pyrotechnics"), ("Streit- und Verteidigungskräfte, Armee", "Defence forces"),
+      ("Kulturgüter", "Cultural assets"), ("Notfallspitäler", "Emergency hospitals"),
+      ("Kommunikationszentren", "Communication centers")]),
+]
+SHOTS = [
+    ("overview.jpg", 320, 190, "Beispiel einer typischen Schutzraumanlage", "Example of a typical shelter layout"),
+    ("doors.jpg", 320, 221, "Explosionsgeschützter Schutzraumeingang", "Shelter entrance with blast doors"),
+    ("filterbank.jpg", 320, 234, "EMP-geschütztes elektrisches Lüftungsgerät mit Handantrieb, im Hintergrund eine NBC-Filter-Reihe",
+     "Ventilating unit with electro-motor and handcrank, large NBC filter bank"),
+]
+
+SUB_CSS = """
+[data-page]{display:none}[data-page].on{display:block}
+.nav-links a[aria-current=page]{color:var(--red)}
+.phero{padding-block:clamp(44px,6vw,88px) clamp(40px,5vw,72px)}
+.phero .wrap{display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:end}
+.phero.solo .wrap{grid-template-columns:1fr}
+.phero h1.pt{font-size:clamp(38px,5.6vw,84px);line-height:1;margin:16px 0 22px;max-width:16ch;hyphens:auto}
+.plead{font-size:clamp(18px,1.5vw,22px);line-height:1.45;max-width:52ch}
+.phero figure{overflow:hidden}.phero figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.sub{padding-block:0 clamp(64px,8vw,112px)}
+.sub>.wrap>h2{font-size:clamp(30px,3.6vw,54px);margin:0 0 14px;max-width:20ch}
+.sub .lede{font-size:19px;max-width:60ch;margin-bottom:36px;color:var(--soft)}
+.rule{border-top:1px solid var(--rule,var(--ink));padding-top:clamp(40px,5vw,64px)}
+.two{display:grid;grid-template-columns:5fr 7fr;gap:56px;align-items:start}
+.two p+p{margin-top:16px}
+.cols{columns:2;column-gap:40px}
+.cols li{break-inside:avoid;padding:13px 0;border-bottom:1px solid var(--line);line-height:1.35}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.shots figure{overflow:hidden}.shots img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.shots figure:hover img{transform:scale(1.03)}
+.shots figcaption{font-size:14px;line-height:1.4;color:var(--mute);margin-top:12px}
+.m3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule,var(--ink));border-bottom:1px solid var(--rule,var(--ink))}
+.m3 div{padding:28px 0 32px}.m3 div+div{padding-left:28px;border-left:1px solid var(--line)}
+.m3 b{display:block;font-size:clamp(40px,6vw,92px);line-height:.98}
+.after{margin-top:28px;font-size:19px;max-width:60ch;color:var(--soft)}
+.f3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.f3 .fc{border-top:4px solid var(--red);padding-top:22px}
+.f3 h3{font-size:26px;line-height:1.1;margin-bottom:16px}
+.f3 li{padding:10px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.35}
+.pgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.pc{background:var(--card);display:flex;flex-direction:column;transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s}
+.pc:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(0,0,0,.4)}
+.pc .ph{aspect-ratio:4/3;background:#fff;padding:18px;overflow:hidden}
+.pc .ph img{width:100%;height:100%;min-height:0;object-fit:contain;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pc:hover .ph img{transform:scale(1.04)}
+.pc .ph.none{background:var(--red)}
+.pc .tx{padding:16px 18px 20px}
+.pc h3{font-size:18px;line-height:1.2;hyphens:auto}
+.pc .ty{display:block;margin-top:6px;font-size:14px;line-height:1.4;color:var(--mute)}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;background:var(--red);color:#fff;padding:clamp(28px,4vw,48px)}
+.cta p{font-size:clamp(24px,2.8vw,40px);line-height:1.1;max-width:22ch}
+.cta .btn{background:#fff!important;color:#14171A!important;border-color:#fff!important;box-shadow:none!important}
+.cta .btn:hover{background:#14171A!important;color:#fff!important;border-color:#14171A!important}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cb{background:var(--card);padding:28px 28px 30px;font-style:normal}
+.cb .big{display:block;font-size:clamp(22px,2.2vw,30px);line-height:1.2;margin-top:14px;overflow-wrap:anywhere}
+.cb a.big{text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:6px;text-decoration-thickness:2px}
+.cb a.big:hover{color:var(--red)}
+.wide img{width:100%}
+.legal{max-width:68ch}.legal h2{font-size:28px!important;margin:40px 0 12px!important}.legal p{margin-bottom:14px}
+.legal a{text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:4px}
+@media (max-width:1100px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){
+ .phero .wrap,.two{grid-template-columns:1fr;gap:28px}.cols{columns:1}
+ .shots,.f3,.cgrid{grid-template-columns:1fr}.shots figure{max-width:420px}
+ .m3{grid-template-columns:1fr}.m3 div{padding:18px 0 20px!important;border-left:0!important}.m3 div+div{border-top:1px solid var(--line)}
+ .pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+}
+@media (max-width:420px){.pc .tx{padding:12px 12px 16px}.pc h3{font-size:16px}}
+"""
+SUB_A = """
+:root{--card:#fff;--soft:#2B2F33}
+.phero{border-bottom:1px solid var(--line);margin-bottom:clamp(48px,6vw,80px)}
+.m3 b,.f3 h3,.pc h3,.cta p,.cb .big{font-stretch:84%;font-weight:640;letter-spacing:-.02em}
+.pc h3,.f3 h3{font-stretch:90%;font-weight:620;letter-spacing:-.01em}
+"""
+SUB_B = """
+:root{--card:#191B1D;--soft:#D2D0CB;--rule:#2C2F33}
+.phero{border-bottom:1px solid var(--line);margin-bottom:clamp(48px,6vw,80px)}
+.phero h1.pt{font-size:clamp(52px,8vw,128px);line-height:.88;max-width:13ch;margin:14px 0 26px}
+.sub>.wrap>h2{font-size:clamp(38px,5vw,76px);line-height:.94;margin-bottom:22px;max-width:16ch}
+.m3 b,.f3 h3,.pc h3,.cta p,.cb .big{font-family:var(--cond);font-weight:700;text-transform:uppercase;line-height:1}
+.pc h3{font-size:22px}.f3 h3{font-size:32px}
+.cols li,.f3 li{color:#D2D0CB}
+.cta .btn{color:#0E0F10!important}
+"""
+SUB_C = """
+:root{--card:#fff;--soft:#3D3934}
+.phero{text-align:left}
+.phero h1.pt{font-size:clamp(40px,5.8vw,88px);letter-spacing:-.025em}
+.sub>.wrap>h2{margin-top:0}
+.m3 b,.f3 h3,.pc h3,.cta p,.cb .big{font-family:var(--serif);font-weight:400;letter-spacing:-.02em}
+.m3 b{font-weight:300}
+.pc,.cb{border-radius:6px;overflow:hidden}.cta{border-radius:6px}
+.phero figure,.shots figure{border-radius:4px}
+.sub.sand{padding-top:clamp(56px,7vw,96px)}
+"""
+
+
+def subpages(K):
+    def hero(pid_kick, title, lead, fig=None):
+        kd, ke = pid_kick
+        f = f"<figure>{img(fig, eager=True)}</figure>" if fig else ""
+        return (f'<div class="phero{"" if fig else " solo"}"><div class="wrap"><div><span class="{K}">{t(kd, ke)}</span>'
+                f'<h1 class="pt">{t(*title)}</h1><p class="plead">{t(*lead)}</p></div>{f}</div></div>')
+
+    def motto(after=None):
+        m = "".join(f"<div><b>{t(d, e)}</b></div>" for d, e in MOTTO)
+        a = f'<p class="after">{t(*after)}</p>' if after else ""
+        return f'<section class="sub"><div class="wrap"><div class="m3">{m}</div>{a}</div></section>'
+
+    def cta(text, btn, href):
+        return (f'<section class="sub"><div class="wrap"><div class="cta"><p>{t(*text)}</p>'
+                f'<a class="btn pri" href="{href}">{t(*btn)}{ARROW}</a></div></div></section>')
+
+    apps = "".join(f"<li>{t(d, e)}</li>" for d, e in APPS)
+    shots = "".join(
+        f'<figure><img src="{A}/img/{f}" width="{w}" height="{h}" alt="" loading="lazy"><figcaption>{t(d, e)}</figcaption></figure>'
+        for f, w, h, d, e in SHOTS)
+    flow = "".join(
+        f'<div class="fc"><h3>{t(d, e)}</h3><ul>{"".join(f"<li>{t(a, b)}</li>" for a, b in items)}</ul></div>'
+        for d, e, items in FLOW_FULL)
+    pcs = ""
+    for p in PRODS:
+        ph = (f'<div class="ph"><img src="{A}/img/{p["img"]}" width="{p["w"]}" height="{p["h"]}" alt="" loading="lazy"></div>'
+              if p["img"] else '<div class="ph none"></div>')
+        ty = f'<span class="ty">{t(p["de2"], p["en2"])}</span>' if p["de2"] else ""
+        pcs += f'<article class="pc">{ph}<div class="tx"><h3>{t(p["de"], p["en"])}</h3>{ty}</div></article>'
+    c = CONTACT
+    contact_blocks = f"""<div class="cgrid">
+ <address class="cb"><span class="{K}">{t("Adresse", "Address")}</span><span class="big">Andair AG<br>{c["street"]}<br>{c["city"]}<br>{t("Schweiz", "Switzerland")}</span></address>
+ <div class="cb"><span class="{K}">{t("Telefon", "Phone")}</span><a class="big" href="tel:+41523042424">{c["phone"]}</a>
+ <span class="ty" style="display:block;margin-top:14px;color:var(--mute)">Fax {c["fax"]}</span></div>
+ <div class="cb"><span class="{K}">E-Mail</span><a class="big" href="mailto:{c["mail"]}">{c["mail"]}</a></div>
+</div>"""
+    return f"""
+<div data-page="schutzraum" id="schutzraum">
+ {hero(("A wie absolute Verantwortung", "A for absolute responsibility"), ("Schutzraum&shy;technik", "Shelter technology"),
+       ("In keinem Bereich ist kompromisslose Sicherheit wichtiger als hier. Absolute Funktionstüchtigkeit ist nicht nur Ziel, sondern Notwendigkeit. Hier zählt Technik, auf die man sich verlassen kann.",
+        "No other area needs such uncompromising safety. Perfect operation reliability is not only a goal but a must. Reliable technique is required."), "shelter.jpg")}
+ {motto(("Und geprüft, genehmigt, garantiert. Andair AG erbringt diese Spitzenleistung seit über 50 Jahren.",
+         "And tested, approved, certified. Andair AG has been providing this outstanding performance for over 50 years."))}
+ <section class="sub"><div class="wrap">
+  <h2>{t("Führend in Schutzraum&shy;technologie", "Leading in shelter technology")}</h2>
+  <p class="lede">{t("Andair-Systeme und -Komponenten werden in Luftschutz-, Sicherheits- und Kontrollräumen eingesetzt.",
+                     "Andair components and systems are used in shelters, safety rooms and control rooms.")}</p>
+  <div class="two"><div>
+   <p>{t("Betreiberpersonal und andere Personen sowie sensibles Material dieser Anlagen müssen geschützt werden.",
+         "Operating staff and other persons as well as sensitive equipment present in these installations need to be protected.")}</p>
+   <p>{t("Fundiertes Know-how und ein umfassendes Sortiment an speziellen Produkten sind die Grundlage für die marktführende Stellung der Andair AG.",
+         "Well founded know-how and a wide range of special products are the basis of Andair's leadership.")}</p>
+   <p>{t("Über 50 Jahre Erfahrung bürgen für beste Qualität, typengetestet und anerkannt durch das Labor Spiez vom Schweizerischen Bundesamt für Bevölkerungsschutz.",
+         "Over 50 years experience pledge for best quality, type tested and approved by the SPIEZ LABORATORY of the Swiss Federal Department of Defence.")}</p>
+   <p>{t("Mehr als 3000 geschützte Grossanlagen in über 55 Ländern weltweit sind mit Andair-Komponenten ausgerüstet.",
+         "More than 3000 large protected installations are equipped with Andair components in over 55 countries everywhere in the world.")}</p>
+  </div><ul class="cols">{apps}</ul></div>
+  <div class="shots">{shots}</div>
+ </div></section>
+ <section class="sub"><div class="wrap">
+  <h2 style="margin-bottom:36px">{t("Von der Bedrohung zum Schutz", "From threat to protection")}</h2>
+  <div class="f3">{flow}</div>
+ </div></section>
+ {cta(("Alle Komponenten für den Schutzraum.", "All components for the shelter."), ("Produkte ansehen", "View products"), "#produkte")}
+</div>
+
+<div data-page="produkte" id="produkte">
+ {hero(("Sicher, einfach, robust", "Safe, simple, rugged"), ("Produkte", "Products"),
+       ("Andair entwickelt und produziert alle für einen Schutzraum nötigen Produkte. Andair-Produkte entsprechen den Anforderungen des Schweizerischen Zivilschutzes und die Firma ist ISO 9001:2015 zertifiziert.",
+        "Andair engineers, manufactures and offers a comprehensive range of all products required to equip shelters. Andair equipment meets the Swiss Civil Defence requirements, and the company is ISO 9001:2015 certified."))}
+ <section class="sub"><div class="wrap"><div class="pgrid">{pcs}</div></div></section>
+ {cta(("Fragen zu einem Produkt?", "Questions about a product?"), ("Kontakt aufnehmen", "Get in touch"), "#kontakt")}
+</div>
+
+<div data-page="schall" id="schall">
+ {hero(("A wie Akustik", "A for acoustics"), ("Schall- und Schwingungs&shy;technik", "Sound and vibration damping"),
+       ("Unsere langjährige Erfahrung in modernster Schall- und Schwingungstechnik gewährleistet innovative Lösungen mit Leistungsgarantie.",
+        "Our long-lasting experience of state-of-the-art sound and vibration protection technique guarantees innovative and reliable solutions."))}
+ {motto(("Wir übernehmen Verantwortung. Wir erhöhen Lebensqualität.", "We take responsibility. We ensure life protection."))}
+ {cta(("Sprechen Sie mit unseren Spezialisten.", "Talk to our specialists."), ("Kontakt aufnehmen", "Get in touch"), "#kontakt")}
+</div>
+
+<div data-page="lufttechnik" id="lufttechnik">
+ {hero(("A wie Atemluft", "A for aeration"), ("Lufttechnik Komponenten", "Ventilation components"),
+       ("Belüftungstechnik stellt komplexe Anforderungen und verlangt Spezialisten, die Ihnen Luft verschaffen. Wir garantieren Know-how und Top-Qualität.",
+        "Ventilation technique makes high demands and requires specialists to ensure fresh air. We guarantee know-how and top quality."), "pipes.jpg")}
+ {motto(("Wir übernehmen Verantwortung. Wir sorgen für gute Luft.", "We take responsibility. We ensure life protection."))}
+ <section class="sub"><div class="wrap wide">{img("pipes-strip.jpg")}</div></section>
+ {cta(("Sprechen Sie mit unseren Spezialisten.", "Talk to our specialists."), ("Kontakt aufnehmen", "Get in touch"), "#kontakt")}
+</div>
+
+<div data-page="firma" id="firma">
+ {hero(("Schützt die Luft für Sie", "Protects the air for you"), ("Über uns", "About us"),
+       ("Andair wurde 1968 gegründet und ist der kompetente Spezialist für Schutzraumtechnik. Mehr als 3’000 geschützte Grossanlagen in über 55 Ländern weltweit sind mit Andair-Komponenten ausgerüstet.",
+        "Andair was founded in 1968 and is the competent specialist in shelter technology. More than 3,000 large protected installations in over 55 countries worldwide have been equipped with Andair components."), "closures.jpg")}
+ {motto(("Kleine und grosse Anlagen werden mit dem Andair-Produktsortiment erfolgreich vor vielen Bedrohungen und Gefahren geschützt und belüftet.",
+         "With the Andair range of products large and small shelters are ventilated and successfully protected against many threats and endangerments."))}
+ <section class="sub"><div class="wrap"><div class="cgrid">
+  <div class="cb"><span class="{K}">Management</span><span class="big">Michael Riedo</span><span class="ty" style="display:block;margin-top:8px;color:var(--mute)">CEO</span></div>
+  <div class="cb"><span class="{K}">{t("Gegründet", "Founded")}</span><span class="big">1968</span><span class="ty" style="display:block;margin-top:8px;color:var(--mute)">Andelfingen, {t("Schweiz", "Switzerland")}</span></div>
+  <div class="cb"><span class="{K}">{t("Zertifizierung", "Certification")}</span><span class="big">ISO 9001:2015</span></div>
+ </div></div></section>
+ {cta(CLAIM, ("Kontakt aufnehmen", "Get in touch"), "#kontakt")}
+</div>
+
+<div data-page="kontakt" id="kontakt">
+ {hero(("Schützt die Luft für Sie", "Protects the air for you"), ("Kontakt", "Contact"),
+       ("Bei Fragen oder Anregungen zögern Sie nicht, mit uns Kontakt aufzunehmen.", "If you have any queries please do not hesitate to contact us."))}
+ <section class="sub"><div class="wrap">{contact_blocks}</div></section>
+</div>
+
+<div data-page="impressum" id="impressum">
+ {hero(("Andair AG", "Andair AG"), ("Impressum", "Imprint"), ("Andair AG, Schaubenstrasse 4, CH-8450 Andelfingen, Schweiz.", "Andair AG, Schaubenstrasse 4, CH-8450 Andelfingen, Switzerland."))}
+ <section class="sub"><div class="wrap legal">
+  <h2>Management</h2><p>Michael Riedo, CEO</p>
+  <h2>{t("Kontakt", "Contact")}</h2><p>{t("Telefon", "Phone")} {c["phone"]}<br>Fax {c["fax"]}<br><a href="mailto:{c["mail"]}">{c["mail"]}</a></p>
+  <h2>Copyright</h2><p>{t("Jegliche textliche Inhalte, das Logo und das Design der Website sind Eigentum der Andair AG. Texte oder Bilder dürfen ohne ausdrückliche Bewilligung der Andair AG nicht anderweitig verwendet oder vervielfältigt werden.",
+   "All textual contents, the logo and design of the website are owned by Andair AG. Texts and pictures must not be used or reproduced without written consent of Andair AG.")}</p>
+ </div></section>
+</div>
+
+<div data-page="datenschutz" id="datenschutz">
+ {hero(("Andair AG", "Andair AG"), ("Datenschutz", "Privacy"), ("Die Datenschutzerklärung wird unverändert von der bestehenden Website übernommen.", "The privacy policy is carried over unchanged from the existing website."))}
+ <section class="sub"><div class="wrap legal">
+  <p>{t('Aktuelle Fassung: <a href="https://andair.ch/datenschutz_d.php">andair.ch/datenschutz_d.php</a>', 'Current version: <a href="https://andair.ch/datenschutz.php">andair.ch/datenschutz.php</a>')}</p>
+ </div></section>
+</div>
+"""
 
 OVERVIEW = """<!DOCTYPE html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Andair AG · Designvarianten Startseite</title>
+<title>Andair AG · Designvarianten</title>
 <style>body{font:17px/1.5 system-ui,sans-serif;margin:0;background:#f3f2ee;color:#14171a}main{max-width:1100px;margin:auto;padding:56px 24px}
 h1{font-size:40px;letter-spacing:-.02em;margin:0 0 8px}p{color:#5c6166;margin:0 0 36px}
 ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 a{display:block;background:#fff;color:inherit;text-decoration:none;transition:transform .2s}a:hover{transform:translateY(-3px)}
 img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-bottom:1px solid #d5d3cc}
 b{display:block;padding:18px 20px 2px;font-size:20px}span{display:block;padding:0 20px 20px;color:#5c6166;font-size:15px}</style></head>
-<body><main><h1>Andair AG · Startseite, drei Varianten</h1><p>Deutsch und Englisch, umschaltbar oben rechts.</p><ul>
+<body><main><h1>Andair AG · Website, drei Varianten</h1><p>Deutsch und Englisch, umschaltbar oben rechts.</p><ul>
 <li><a href="varianten/a-werkplan/"><img src="varianten/a-werkplan/vorschau.png" alt=""><b>A · Werkplan</b><span>Hell, technisch, Schweizer Raster</span></a></li>
 <li><a href="varianten/b-bunker/"><img src="varianten/b-bunker/vorschau.png" alt=""><b>B · Bunker</b><span>Dunkel, Beton, grosse Versalien</span></a></li>
 <li><a href="varianten/c-editorial/"><img src="varianten/c-editorial/vorschau.png" alt=""><b>C · Editorial</b><span>Warm, Serifen, Herkunft und Vertrauen</span></a></li>
