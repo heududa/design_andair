@@ -233,7 +233,7 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 .simcard .k{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#FF7A1A}
 .simcard strong{display:block;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(40px,4.6vw,68px);line-height:.92;margin:10px 0 22px}
 .simcard strong em{font-style:normal;color:#FF7A1A}
-.simcard ol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.simcard ol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.simcard ol li:last-child{grid-column:1/-1}
 .simcard li{display:flex;gap:12px;align-items:baseline;padding:14px 16px;background:#18252F;border:1px solid #2A3945;font-family:var(--cond);font-weight:600;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
 .simcard li b{color:#FF7A1A;font-size:15px}
 .simcard ul{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -276,12 +276,12 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 <section class="sim"><div class="wrap">
  <div><span class="eyebrow"><span class="de" lang="de">Ausprobieren</span><span class="en" lang="en">Try it</span></span>
  <h2><span class="de" lang="de">Was hält Ihr Schutzraum aus?</span><span class="en" lang="en">What can your shelter withstand?</span></h2>
- <p><span class="de" lang="de">Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Zwei Szenarien zum Ausprobieren.</span><span class="en" lang="en">Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. Two scenarios to try.</span></p>
+ <p><span class="de" lang="de">Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Mit Ernstfall, Schleusenspiel und Planspiel.</span><span class="en" lang="en">Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. With emergency, airlock game and planning game.</span></p>
  <div class="acts"><a class="btn pri" href="#simulator"><span class="de" lang="de">Simulator starten</span><span class="en" lang="en">Start the simulator</span><svg class="arr" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></div></div>
  <a class="simcard" href="#simulator">
- <span class="k"><span class="de" lang="de">Andair Messe-Demo</span><span class="en" lang="en">Andair trade fair demo</span></span>
- <strong>Ernstfall-<em>Simulator</em></strong>
- <ol><li><b>1</b><span class="de" lang="de">Ernstfall</span><span class="en" lang="en">Emergency</span></li><li><b>2</b><span class="de" lang="de">Schleusenspiel</span><span class="en" lang="en">Airlock game</span></li></ol>
+ <span class="k">Verona Shelter World 3.0</span>
+ <strong>Shelter <em>World</em></strong>
+ <ol><li><b>1</b><span class="de" lang="de">Ernstfall</span><span class="en" lang="en">Emergency</span></li><li><b>2</b><span class="de" lang="de">Schleusenspiel</span><span class="en" lang="en">Airlock game</span></li><li><b>3</b><span class="de" lang="de">Planspiel</span><span class="en" lang="en">Planning game</span></li></ol>
  <ul><li><span class="de" lang="de">Bauart</span><span class="en" lang="en">Construction</span></li><li><span class="de" lang="de">Grösse</span><span class="en" lang="en">Size</span></li><li><span class="de" lang="de">Schutzklasse</span><span class="en" lang="en">Protection class</span></li><li><span class="de" lang="de">EMP-Schutz</span><span class="en" lang="en">EMP protection</span></li><li><span class="de" lang="de">Notstromdiesel</span><span class="en" lang="en">Emergency diesel</span></li><li><span class="de" lang="de">Lagekarte und Schnitt</span><span class="en" lang="en">Situation map and section</span></li></ul>
 </a>
 </div></section>
@@ -338,11 +338,11 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 
 <div data-page="simulator" id="simulator">
  <div class="phero solo"><div class="wrap"><div><span class="eyebrow"><span class="de" lang="de">Ernstfall-Simulator</span><span class="en" lang="en">Emergency simulator</span></span>
- <h1 class="pt"><span class="de" lang="de">Was hält Ihr Schutzraum aus?</span><span class="en" lang="en">What can your shelter withstand?</span></h1><p class="plead"><span class="de" lang="de">Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Zwei Szenarien zum Ausprobieren.</span><span class="en" lang="en">Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. Two scenarios to try.</span></p></div></div></div>
- <section class="sub"><div class="wrap"><div style="max-width:720px"><a class="simcard" href="https://claude.ai/artifact/NxzLuFjspGAeRJgKE5PD3P" target="_blank" rel="noopener">
- <span class="k"><span class="de" lang="de">Andair Messe-Demo</span><span class="en" lang="en">Andair trade fair demo</span></span>
- <strong>Ernstfall-<em>Simulator</em></strong>
- <ol><li><b>1</b><span class="de" lang="de">Ernstfall</span><span class="en" lang="en">Emergency</span></li><li><b>2</b><span class="de" lang="de">Schleusenspiel</span><span class="en" lang="en">Airlock game</span></li></ol>
+ <h1 class="pt"><span class="de" lang="de">Was hält Ihr Schutzraum aus?</span><span class="en" lang="en">What can your shelter withstand?</span></h1><p class="plead"><span class="de" lang="de">Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Mit Ernstfall, Schleusenspiel und Planspiel.</span><span class="en" lang="en">Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. With emergency, airlock game and planning game.</span></p></div></div></div>
+ <section class="sub"><div class="wrap"><div style="max-width:720px"><a class="simcard" href="https://claude.ai/artifact/GMJNwQKJbfmBgkS15NJovD" target="_blank" rel="noopener">
+ <span class="k">Verona Shelter World 3.0</span>
+ <strong>Shelter <em>World</em></strong>
+ <ol><li><b>1</b><span class="de" lang="de">Ernstfall</span><span class="en" lang="en">Emergency</span></li><li><b>2</b><span class="de" lang="de">Schleusenspiel</span><span class="en" lang="en">Airlock game</span></li><li><b>3</b><span class="de" lang="de">Planspiel</span><span class="en" lang="en">Planning game</span></li></ol>
  <ul><li><span class="de" lang="de">Bauart</span><span class="en" lang="en">Construction</span></li><li><span class="de" lang="de">Grösse</span><span class="en" lang="en">Size</span></li><li><span class="de" lang="de">Schutzklasse</span><span class="en" lang="en">Protection class</span></li><li><span class="de" lang="de">EMP-Schutz</span><span class="en" lang="en">EMP protection</span></li><li><span class="de" lang="de">Notstromdiesel</span><span class="en" lang="en">Emergency diesel</span></li><li><span class="de" lang="de">Lagekarte und Schnitt</span><span class="en" lang="en">Situation map and section</span></li></ul>
 </a></div><p class="simnote"><span class="de" lang="de">Der Simulator öffnet sich in einem eigenen Fenster.</span><span class="en" lang="en">The simulator opens in its own window.</span></p></div></section>
 </div>

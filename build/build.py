@@ -1086,7 +1086,7 @@ def shelter_version(slug, fn):
 # =====================================================================
 # Variante B mit allen Gewerken, Schwerpunkt Schutzraum, mit Ernstfall-Simulator
 # =====================================================================
-SIM_URL = "https://claude.ai/artifact/NxzLuFjspGAeRJgKE5PD3P"
+SIM_URL = "https://claude.ai/artifact/GMJNwQKJbfmBgkS15NJovD"  # Verona Shelter World 3.0
 SIM_FILE = ROOT / "spiel" / "simulator.html"   # liegt die Datei hier, wird das Spiel direkt eingebettet
 SIM_CSS = """
 .rows .row:first-child{padding:56px 0}
@@ -1106,7 +1106,7 @@ SIM_CSS = """
 .simcard .k{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#FF7A1A}
 .simcard strong{display:block;font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(40px,4.6vw,68px);line-height:.92;margin:10px 0 22px}
 .simcard strong em{font-style:normal;color:#FF7A1A}
-.simcard ol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.simcard ol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.simcard ol li:last-child{grid-column:1/-1}
 .simcard li{display:flex;gap:12px;align-items:baseline;padding:14px 16px;background:#18252F;border:1px solid #2A3945;font-family:var(--cond);font-weight:600;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
 .simcard li b{color:#FF7A1A;font-size:15px}
 .simcard ul{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -1124,9 +1124,9 @@ SIM_CSS = """
 def sim_card(href, ext=False):
     tgt = ' target="_blank" rel="noopener"' if ext else ""
     return f"""<a class="simcard" href="{href}"{tgt}>
- <span class="k">{t("Andair Messe-Demo", "Andair trade fair demo")}</span>
- <strong>Ernstfall-<em>Simulator</em></strong>
- <ol><li><b>1</b>{t("Ernstfall", "Emergency")}</li><li><b>2</b>{t("Schleusenspiel", "Airlock game")}</li></ol>
+ <span class="k">Verona Shelter World 3.0</span>
+ <strong>Shelter <em>World</em></strong>
+ <ol><li><b>1</b>{t("Ernstfall", "Emergency")}</li><li><b>2</b>{t("Schleusenspiel", "Airlock game")}</li><li><b>3</b>{t("Planspiel", "Planning game")}</li></ol>
  <ul><li>{t("Bauart", "Construction")}</li><li>{t("Grösse", "Size")}</li><li>{t("Schutzklasse", "Protection class")}</li><li>{t("EMP-Schutz", "EMP protection")}</li><li>{t("Notstromdiesel", "Emergency diesel")}</li><li>{t("Lagekarte und Schnitt", "Situation map and section")}</li></ul>
 </a>"""
 
@@ -1144,8 +1144,8 @@ def simulator_version():
     h = h.replace('<span class="n">01</span><h3>', '<span class="n">01</span><h3><span class="tagf">' + t("Schwerpunkt", "Core business") + "</span><br>", 1)
     h = h.replace("Drei Fachgebiete. Ein Hersteller.", "Schutzraum zuerst. Dazu Schall und Luft.").replace(
         "Three disciplines. One manufacturer.", "Shelter first. Plus sound and air.")
-    lead = t("Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Zwei Szenarien zum Ausprobieren.",
-             "Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. Two scenarios to try.")
+    lead = t("Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Mit Ernstfall, Schleusenspiel und Planspiel.",
+             "Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. With emergency, airlock game and planning game.")
     teaser = f"""<section class="sim"><div class="wrap">
  <div><span class="eyebrow">{t("Ausprobieren", "Try it")}</span>
  <h2>{t("Was hält Ihr Schutzraum aus?", "What can your shelter withstand?")}</h2>
@@ -1158,7 +1158,7 @@ def simulator_version():
     assert marker in h
     h = h.replace(marker, teaser + marker, 1)
     if SIM_FILE.exists():
-        stage = (f'<iframe class="simframe" src="simulator.html" title="Andair Ernstfall-Simulator" allow="fullscreen"></iframe>'
+        stage = (f'<iframe class="simframe" src="simulator.html" title="Verona Shelter World" allow="fullscreen"></iframe>'
                  f'<p class="simnote">{t("Der Simulator läuft direkt hier auf der Seite.", "The simulator runs right here on the page.")}</p>')
     else:
         stage = (f'<div style="max-width:720px">{sim_card(SIM_URL, True)}</div>'
