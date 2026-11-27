@@ -1006,13 +1006,90 @@ b{display:block;padding:18px 20px 2px;font-size:20px}span{display:block;padding:
 <li><a href="varianten/a-werkplan/"><img src="varianten/a-werkplan/vorschau.png" alt=""><b>A · Werkplan</b><span>Hell, technisch, Schweizer Raster</span></a></li>
 <li><a href="varianten/b-bunker/"><img src="varianten/b-bunker/vorschau.png" alt=""><b>B · Bunker</b><span>Dunkel, Beton, grosse Versalien</span></a></li>
 <li><a href="varianten/c-editorial/"><img src="varianten/c-editorial/vorschau.png" alt=""><b>C · Editorial</b><span>Warm, Serifen, Herkunft und Vertrauen</span></a></li>
+</ul>
+<h1 style="margin-top:56px">Nur Schutzraumtechnik, mit neuem Logo</h1><p>Ohne Schall- und Schwingungstechnik und ohne Lufttechnik Komponenten.</p><ul>
+<li><a href="varianten/a-werkplan-schutzraum/"><img src="varianten/a-werkplan-schutzraum/vorschau.png" alt=""><b>A · Werkplan · Schutzraum</b><span>Logo: A als Dach im roten Quadrat</span></a></li>
+<li><a href="varianten/b-bunker-schutzraum/"><img src="varianten/b-bunker-schutzraum/vorschau.png" alt=""><b>B · Bunker · Schutzraum</b><span>Logo: Dreieck mit Eingang</span></a></li>
+<li><a href="varianten/c-editorial-schutzraum/"><img src="varianten/c-editorial-schutzraum/vorschau.png" alt=""><b>C · Editorial · Schutzraum</b><span>Logo: Ring mit Dreieck im Kern</span></a></li>
 </ul></main></body></html>
 """
+
+
+# =====================================================================
+# Schutzraum-Fassungen: nur Schutzraumtechnik, mit neuem Logo
+# =====================================================================
+GROUPS = [
+    ("Explosionsschutz", "Explosion protection",
+     "Explosionsschutzventile der Typen ESV, FC, KC-T und EGV für Zuluft, Abluft, Sanitärentlüftung und Abgase.",
+     "Explosion protection valves of types ESV, FC, KC-T and EGV for air inlets, outlets, sanitary vents and exhaust gases."),
+    ("NBC-Filtration und Belüftung", "NBC filtration and ventilation",
+     "Gasfilter, Ventilationsinstallationen VA 150 bis VA 2400 und der NBC Survivor 40 für private Überlebensräume.",
+     "Gas filters, ventilating installations VA 150 to VA 2400 and the NBC Survivor 40 for safe rooms."),
+    ("Abschlüsse und EMP-Schutz", "Closures and EMP protection",
+     "Panzertüren und Drucktüren, gasdichte Absperrklappen, EMP-Türen und EMP-Gitter.",
+     "Blast doors and pressure doors, gastight shut-off valves, EMP doors and EMP grilles."),
+]
+NAV_SHELTER = [
+    ("#schutzraum", "Schutzraumtechnik", "Shelter technology"),
+    ("#produkte", "Produkte", "Products"),
+    ("#firma", "Firma", "Company"),
+]
+OLD_LOGO = '<a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>'
+LOGOS = {
+    # A: das A als Dach mit Querbalken, weiss im roten Quadrat
+    "a-werkplan": ('<svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true"><rect width="40" height="40" fill="#D7261E"/>'
+                   '<path fill="#fff" d="M20 7 34 33h-6.4L20 18.6 12.4 33H6z"/><rect x="14.6" y="26" width="10.8" height="3.2" fill="#fff"/></svg>'
+                   '<span>ANDAIR</span>',
+                   ".logo{background:none;color:var(--ink);padding:0;display:flex;align-items:center;gap:12px;font-weight:800;font-stretch:118%;font-size:21px;letter-spacing:.05em}"),
+    # B: rotes Dreieck mit ausgespartem Eingang (Bunker und A zugleich)
+    "b-bunker": ('<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><path fill="#E1261C" d="M20 3 38 36H2z"/>'
+                 '<rect x="16" y="23" width="8" height="13" fill="#0E0F10"/></svg><span>ANDAIR</span>',
+                 ".logo{background:none;margin-left:0;padding:0;gap:12px;font-size:30px;letter-spacing:.07em}"),
+    # C: Ring (Ventil, Luft) mit dem A als Dreieck im Kern
+    "c-editorial": ('<svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true"><circle cx="20" cy="20" r="17.5" fill="none" stroke="#C8201A" stroke-width="2.6"/>'
+                    '<path fill="#C8201A" d="M20 9.5 29.6 27H10.4z"/></svg><span>Andair</span>',
+                    ".logo::before{display:none}.logo{gap:11px;font-size:27px;font-weight:500}.card:nth-child(n) .tri{border-bottom-color:var(--red)}"),
+}
+SWAPS = [
+    (t("Bereiche", "Divisions"), t("Sortiment", "Range")),
+    ("Drei Fachgebiete, ein Hersteller.", "Drei Produktgruppen, ein Hersteller."),
+    ("Three disciplines, one manufacturer.", "Three product groups, one manufacturer."),
+    ("Drei Fachgebiete. Ein Hersteller.", "Alles für den Schutzraum."),
+    ("Three disciplines. One manufacturer.", "Everything for the shelter."),
+    ("Drei Fachgebiete unter einem Dach.", "Alles für den Schutzraum unter einem Dach."),
+    ("Three disciplines under one roof.", "Everything for the shelter under one roof."),
+]
+
+
+def shelter_version(slug, fn):
+    import re
+    global NAV, AREAS, AREA_HREF
+    keep = (NAV, AREAS, AREA_HREF)
+    NAV, AREAS, AREA_HREF = NAV_SHELTER, GROUPS, ["#produkte"] * 3
+    try:
+        h = fn()
+    finally:
+        NAV, AREAS, AREA_HREF = keep
+    h = re.sub(r'<div data-page="schall" id="schall">.*?(?=<div data-page="firma")', "", h, flags=re.S)
+    mark, css = LOGOS[slug]
+    assert OLD_LOGO in h
+    h = h.replace(OLD_LOGO, f'<a class="logo" href="#home" aria-label="Andair AG">{mark}</a>')
+    h = h.replace("</style>", css + "\n</style>", 1)
+    for a, b in SWAPS:
+        h = h.replace(a, b)
+    for a in ("Entwurf A · Werkplan", "Entwurf B · Bunker", "Entwurf C · Editorial", "Draft A · Werkplan", "Draft B · Bunker", "Draft C · Editorial"):
+        h = h.replace(a, a + (" · Schutzraum" if a.startswith("Entwurf") else " · Shelter"))
+    return h
+
 
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
         d.mkdir(parents=True, exist_ok=True)
         (d / "index.html").write_text(with_alts(fn()), encoding="utf-8")
+        print("ok", d / "index.html")
+        d = ROOT / "varianten" / (slug + "-schutzraum")
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(with_alts(shelter_version(slug, fn)), encoding="utf-8")
         print("ok", d / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")

@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 MIME = {".jpg": "image/jpeg", ".png": "image/png", ".woff2": "font/woff2"}
 (ROOT / "dist").mkdir(exist_ok=True)
-for v in ("a-werkplan", "b-bunker", "c-editorial"):
+for v in sorted(d.name for d in (ROOT / "varianten").iterdir() if (d / "index.html").exists()):
     html = (ROOT / "varianten" / v / "index.html").read_text(encoding="utf-8")
     def data(m):
         f = ROOT / "assets" / m.group(1)

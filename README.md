@@ -8,6 +8,8 @@ Redesign-Entwürfe für [andair.ch](https://andair.ch): die ganze Website in dre
 | B · Bunker | Dunkel, Beton, grosse Versalien (Barlow Condensed) | `varianten/b-bunker/index.html` |
 | C · Editorial | Warm, Serifen, Herkunft und Vertrauen (Fraunces, Instrument Sans) | `varianten/c-editorial/index.html` |
 
+Zusätzlich gibt es jede Variante als Schutzraum-Fassung (`varianten/<name>-schutzraum/`): nur Schutzraumtechnik, ohne Schall- und Schwingungstechnik und ohne Lufttechnik Komponenten, mit je einem neuen Logo-Entwurf (A: das A als Dach im roten Quadrat, B: Dreieck mit Eingang, C: Ring mit Dreieck im Kern).
+
 `index.html` ist die Übersicht. Unter `dist/` liegt jede Variante als eine eigenständige Datei mit eingebetteten Schriften und Bildern (`python3 build/inline.py`). Die Seiten werden aus `build/build.py` erzeugt (`python3 build/build.py`); Texte, Bilder und Kontaktdaten stammen von andair.ch. Schriften liegen lokal unter `assets/fonts` (SIL Open Font License).
 
 Offen: Die Fotos sind die niedrig aufgelösten Bilder der heutigen Website. Für die Umsetzung braucht es Originale in hoher Auflösung. Die Datenschutzseite verweist auf den bestehenden Text.
