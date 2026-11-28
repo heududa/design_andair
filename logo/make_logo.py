@@ -10,7 +10,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 HERE = Path(__file__).resolve().parent
 OUT = HERE / 'svg'
-RED, INK, WHITE = '#D7261E', '#141516', '#FFFFFF'
+RED, INK, WHITE, SILVER = '#E10600', '#2A2A2A', '#FFFFFF', '#C0C0C0'   # Signal Red, Charcoal Grey, Weiss, Moonlit Silver
 f = instancer.instantiateVariableFont(TTFont(HERE.parent / 'assets/fonts/instrument-sans.woff2'), {'wght': 700})
 gs, cmap, upm, hmtx = f.getGlyphSet(), f.getBestCmap(), f['head'].unitsPerEm, f['hmtx']
 CAP = f['OS/2'].sCapHeight / upm
@@ -40,7 +40,7 @@ def save(name, content):
     (OUT / name).write_text(content, encoding='utf-8')
 
 SCHEMES = {  # name: (dach, punkt, schrift)
-    'farbe': (RED, INK, INK), 'negativ': (RED, WHITE, WHITE),
+    'farbe': (RED, INK, INK), 'negativ': (RED, SILVER, SILVER),
     'schwarz': (INK, INK, INK), 'weiss': (WHITE, WHITE, WHITE), 'rot': (RED, RED, RED),
 }
 SIZE = 220                       # Schriftgroesse
