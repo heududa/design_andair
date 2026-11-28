@@ -1356,6 +1356,36 @@ def palette_version():
     return h
 
 
+
+# Ganze Website nur Schutzraum, in der Palette mit neuem Logo und Simulator
+def palette_shelter_version():
+    import re
+    global NAV, AREAS, AREA_HREF
+    keep = (NAV, AREAS, AREA_HREF)
+    NAV, AREAS, AREA_HREF = NAV_SHELTER, GROUPS, ["#produkte"] * 3
+    try:
+        h = palette_version()
+    finally:
+        NAV, AREAS, AREA_HREF = keep
+    h, n = re.subn(r'<div data-page="schall" id="schall">.*?(?=<div data-page="firma")', "", h, flags=re.S)
+    assert n == 1
+    h = h.replace('<span class="tagf">' + t("Schwerpunkt", "Core business") + "</span><br>", "")
+    for a, b in ((t("Bereiche", "Divisions"), t("Sortiment", "Range")),
+                 ("Schutzraum zuerst. Dazu Schall und Luft.", "Alles für den Schutzraum."),
+                 ("Shelter first. Plus sound and air.", "Everything for the shelter."),
+                 ("· Charcoal, Silver, Signal Red", "· Nur Schutzraum")):
+        assert a in h, a[:40]
+        h = h.replace(a, b)
+    css = """
+/* drei gleichwertige Produktgruppen */
+.rows .row,.rows .row:first-child,.rows .row:not(:first-child){padding:34px 0;align-items:center}
+.rows .row h3,.rows .row:first-child h3,.rows .row:not(:first-child) h3{font-size:clamp(30px,3.6vw,54px);color:var(--ink)}
+.rows .row:first-child p{color:var(--mute);font-size:inherit;padding-bottom:0}
+.rows .row:hover p{color:#fff}
+"""
+    return h.replace("</style>", css + "\n</style>", 1)
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1388,4 +1418,10 @@ if __name__ == "__main__":
     if SIM_PALETTE_FILE.exists():
         shutil.copy(SIM_PALETTE_FILE, d3 / "simulator.html")
     print("ok", d3 / "index.html")
+    d4 = ROOT / "varianten" / "b-bunker-schutzraum-palette"
+    d4.mkdir(parents=True, exist_ok=True)
+    (d4 / "index.html").write_text(with_alts(palette_shelter_version()), encoding="utf-8")
+    if SIM_PALETTE_FILE.exists():
+        shutil.copy(SIM_PALETTE_FILE, d4 / "simulator.html")
+    print("ok", d4 / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
