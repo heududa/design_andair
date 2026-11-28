@@ -1096,7 +1096,15 @@ SIM_SRC = ROOT / "spiel" / "simulator.html"            # Original: Verona Shelte
 SIM_FILE = ROOT / "spiel" / "simulator-andair.html"   # daraus erzeugt: Andair-Fassung, wird eingebettet
 
 
-def make_sim_andair():
+SIM_COLORS_DEFAULT = (("#ff7a1a", "#e1261c"), ("#1b0c02", "#ffffff"), ("rgba(255,122,26,", "rgba(225,38,28,"),
+                      ("#0a1117", "#0e0f10"), ("#111b24", "#191b1d"), ("#18252f", "#222527"), ("#2a3945", "#2c2f33"),
+                      ("#16232d", "#1d2023"), ("#8fa1af", "#a0a4a8"), ("rgba(10,17,23,", "rgba(14,15,16,"), ("rgba(17,27,36,", "rgba(25,27,29,"))
+SIM_COLORS_PALETTE = (("#ff7a1a", "#e10600"), ("#1b0c02", "#ffffff"), ("rgba(255,122,26,", "rgba(225,6,0,"),
+                      ("#0a1117", "#2a2a2a"), ("#111b24", "#232323"), ("#18252f", "#333333"), ("#2a3945", "#484848"),
+                      ("#16232d", "#383838"), ("#8fa1af", "#c0c0c0"), ("rgba(10,17,23,", "rgba(42,42,42,"), ("rgba(17,27,36,", "rgba(35,35,35,"))
+
+
+def make_sim_andair(colors=SIM_COLORS_DEFAULT, out=None, red="#e1261c"):
     """Andair-Fassung des Spiels: Logo, Name und Farben ersetzt, Sprachwahl vom Website-Schalter gesteuert."""
     import re
     if not SIM_SRC.exists():
@@ -1107,17 +1115,16 @@ def make_sim_andair():
     assert n == 18, n
     g = g.replace("<title>Verona Shelter World 3.0</title>", "<title>Andair Ernstfall-Simulator</title>")
     g = g.replace("Verona Shelter World 3.0 · ", "Andair AG · ")
-    for a, b in (("#ff7a1a", "#e1261c"), ("#1b0c02", "#ffffff"), ("rgba(255,122,26,", "rgba(225,38,28,"),
-                 ("#0a1117", "#0e0f10"), ("#111b24", "#191b1d"), ("#18252f", "#222527"), ("#2a3945", "#2c2f33"),
-                 ("#16232d", "#1d2023"), ("#8fa1af", "#a0a4a8"), ("rgba(10,17,23,", "rgba(14,15,16,"), ("rgba(17,27,36,", "rgba(25,27,29,")):
+    for a, b in colors:
         g = re.sub(re.escape(a), b, g, flags=re.I)
     css = ("<style>/* Andair-Anpassung */.langsel{display:none!important}"
-           ".awm{width:auto!important;opacity:.6!important;font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;color:#fff;background:#e1261c;padding:4px 12px;line-height:1.1}"
+           ".awm{width:auto!important;opacity:.6!important;font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;color:#fff;background:" + red + ";padding:4px 12px;line-height:1.1}"
            "@media (max-width:920px){.awm{font-size:18px}}</style>")
     assert "</head>" in g
     g = g.replace("</head>", css + "\n</head>", 1)
-    SIM_FILE.write_text(g, encoding="utf-8")
-    print("ok", SIM_FILE, len(g) // 1024, "KB")
+    out = out or SIM_FILE
+    out.write_text(g, encoding="utf-8")
+    print("ok", out, len(g) // 1024, "KB")
 
 SIM_CSS = """
 .rows .row:first-child{padding:56px 0}
@@ -1285,6 +1292,70 @@ def light_version():
     return h
 
 
+
+# Fassung in der Palette Charcoal Grey / Moonlit Silver / Signal Red, mit dem neuen Logo
+SIM_PALETTE_FILE = ROOT / "spiel" / "simulator-palette.html"
+PALETTE_CSS = """
+/* Palette: Charcoal Grey #2A2A2A, Moonlit Silver #C0C0C0, Signal Red #E10600 */
+:root{color-scheme:dark;--bg:#2A2A2A;--panel:#232323;--ink:#F2F2F2;--mute:#C0C0C0;--line:#484848;--red:#E10600;--red-d:#B80500;--focus:#fff;--card:#333333;--soft:#D4D4D4;--rule:#484848}
+header{background:rgba(42,42,42,.94)}
+.logo{background:none;margin-left:0;padding:0;display:flex;align-items:center}
+.logo svg{height:27px;width:auto;display:block}
+.lead,.col li,.cols li,.f3 li,.kontakt address,.sim p,.firma p{color:#D4D4D4}
+.eyebrow,.row .n{color:#C0C0C0}
+.nav-links a:hover{color:#fff;box-shadow:inset 0 -2px 0 var(--red)}
+.nav-links a[aria-current=page]{color:#fff;box-shadow:inset 0 -2px 0 var(--red)}
+.lang button[aria-pressed=true]{text-decoration-color:var(--red)}
+.btn.pri:hover{background:#fff;color:#2A2A2A}
+.rows .row:not(:first-child) h3{color:#C0C0C0}
+#produkte{background:#232323}
+.sim{background-color:#232323;background-image:linear-gradient(rgba(192,192,192,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(192,192,192,.06) 1px,transparent 1px)}
+.simcard{background:#2A2A2A;border-color:#E10600;color:#F2F2F2}
+.simcard:hover{background:#333333}
+.simcard .k,.simcard li b{color:#C0C0C0}
+.simcard strong em{color:#E10600}
+.simcard li{background:#333333;border-color:#484848}
+.simcard ul li{color:#C0C0C0}
+.firma{background:#C0C0C0;color:#2A2A2A}
+.firma p{color:#2A2A2A}
+.firma h2 i:last-child{color:#2A2A2A}
+.firma h2::before{content:"";display:block;width:96px;height:10px;background:#E10600;margin-bottom:30px}
+.kontakt address b{color:#fff}
+.kontakt address a:hover,footer a:hover{color:#fff}
+.t3,.t4{background:#C0C0C0}
+.t3 img,.t4 img{mix-blend-mode:multiply}
+.t3 .code,.t4 .code{color:#2A2A2A}
+.pc .ph{background:#fff}
+.simframe{border-color:#484848}
+@media (max-width:900px){.logo svg{height:22px}}
+"""
+
+
+def palette_version():
+    import re, base64
+    global SIM_FILE
+    keep = SIM_FILE
+    make_sim_andair(SIM_COLORS_PALETTE, SIM_PALETTE_FILE, "#e10600")
+    if SIM_PALETTE_FILE.exists():
+        SIM_FILE = SIM_PALETTE_FILE
+    try:
+        h = simulator_version()
+    finally:
+        SIM_FILE = keep
+    h = h.replace("</style>", PALETTE_CSS + "\n</style>", 1)
+    h = h.replace('<meta name="theme-color" content="#0E0F10">', '<meta name="theme-color" content="#2A2A2A">')
+    logo_svg = (ROOT / "logo" / "svg" / "andair-logo-negativ.svg").read_text(encoding="utf-8")
+    logo_svg = re.sub(r' width="[\d.]+" height="[\d.]+" role="img" aria-labelledby="t">\s*<title id="t">[^<]*</title>', ' aria-hidden="true">', logo_svg).strip()
+    old = '<a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>'
+    assert old in h
+    h = h.replace(old, f'<a class="logo" href="#home" aria-label="Andair" translate="no">{logo_svg}</a>')
+    fav = base64.b64encode((ROOT / "logo" / "web" / "favicon.svg").read_bytes()).decode()
+    h = h.replace("<title>", f'<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{fav}">\n<title>', 1)
+    for a, b in (("Entwurf B · Bunker · Simulator", "Entwurf B · Bunker · Simulator · Charcoal, Silver, Signal Red"), ("Draft B · Bunker · Simulator", "Draft B · Bunker · Simulator · Charcoal, Silver, Signal Red")):
+        h = h.replace(a, b)
+    return h
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1311,4 +1382,10 @@ if __name__ == "__main__":
     if SIM_FILE.exists():
         shutil.copy(SIM_FILE, d2 / "simulator.html")
     print("ok", d2 / "index.html")
+    d3 = ROOT / "varianten" / "b-bunker-simulator-palette"
+    d3.mkdir(parents=True, exist_ok=True)
+    (d3 / "index.html").write_text(with_alts(palette_version()), encoding="utf-8")
+    if SIM_PALETTE_FILE.exists():
+        shutil.copy(SIM_PALETTE_FILE, d3 / "simulator.html")
+    print("ok", d3 / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
