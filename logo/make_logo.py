@@ -28,6 +28,7 @@ def word(txt, size, x0, baseline, track=-0.02):
 # Zeichen auf 256er Raster: Schenkel 48 breit, Steigung 1:2, Punkt r=30 auf der Grundlinie
 ROOF = 'M104 32H152L248 224H200L128 80L56 224H8Z'
 DOT = (128, 194, 30)
+A2 = 'M104 32H152L248 224H200L184 192H72L56 224H8Z M90 156H166L128 80Z'   # A mit Querbalken, gleiche Schenkel
 def symbol(roof, dot, dx=0, dy=0, k=1.0):
     t = f' transform="translate({dx:g} {dy:g}) scale({k:g})"' if (dx or dy or k != 1) else ''
     return (f'<g id="symbol"{t}><path fill="{roof}" d="{ROOF}"/>'
@@ -50,14 +51,19 @@ PAD = 28
 for name, (roof, dot, ink) in SCHEMES.items():
     # nur Zeichen
     save(f'andair-zeichen-{name}.svg', svg(symbol(roof, dot), 256, 256, 'Andair Zeichen'))
-    # Logo: das Zeichen steht als A vor "ndair", auf derselben Grundlinie
+    # Logo in Versalien: das Zeichen ist das erste A, das zweite A hat dieselbe Geometrie mit Querbalken
+    TR = 0.03                                    # Laufweite fuer Versalien
     sx = PAD - 8 * K; sy = BASE - 224 * K
-    x_n = PAD + 240 * K + SIZE * 0.012          # das n rueckt nah an den rechten Schenkel
-    d, w = word('ndair', SIZE, x_n, BASE)
-    W = round(x_n + w + PAD); H = round(BASE + PAD + SIZE * 0.02)
-    top = BASE - CAPH - SIZE * 0.06 - PAD        # Oberkante: Oberlaengen von d und i
-    inner = f'<g transform="translate(0 {-top:g})">' + symbol(roof, dot, sx, sy, K) + f'<path id="wordmark" fill="{ink}" d="{d}"/></g>'
-    save(f'andair-logo-{name}.svg', svg(inner, W, round(H - top), 'Andair'))
+    x = PAD + 240 * K + SIZE * 0.035
+    d1, w1 = word('ND', SIZE, x, BASE, TR)
+    x += w1 + SIZE * 0.035
+    a2 = f'<path fill="{ink}" fill-rule="evenodd" transform="translate({x - 8 * K:g} {sy:g}) scale({K:g})" d="{A2}"/>'
+    x += 240 * K + SIZE * 0.035
+    d2, w2 = word('IR', SIZE, x, BASE, TR)
+    W = round(x + w2 + PAD); top = BASE - CAPH - PAD
+    inner = (f'<g transform="translate(0 {-top:g})">' + symbol(roof, dot, sx, sy, K)
+             + f'<g id="wordmark"><path fill="{ink}" d="{d1}"/>{a2}<path fill="{ink}" d="{d2}"/></g></g>')
+    save(f'andair-logo-{name}.svg', svg(inner, W, round(BASE + PAD - top), 'Andair'))
 # App-Symbol und Favicon: weisses Zeichen im roten Feld, fuer kleine Groessen kraeftiger
 def tile(rx, k, dot_r):
     c = f'<rect width="256" height="256" rx="{rx}" fill="{RED}"/>'
