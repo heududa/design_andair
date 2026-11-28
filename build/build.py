@@ -1523,6 +1523,254 @@ def animated_version():
     return h
 
 
+
+# =====================================================================
+# Variante P · nach UI UX Pro Max: Muster "Trust & Authority + Conversion",
+# Stil "Accessible & Ethical", Schrift Plus Jakarta Sans. Farben und Logo von Andair.
+# =====================================================================
+def _ico(d):
+    return f'<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{d}</svg>'
+ICO_CHECK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+ICONS_G = [
+    _ico('<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><circle cx="12" cy="11.5" r="3"/><path d="M12 8.5v6M9 11.5h6"/>'),
+    _ico('<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h8a2.5 2.5 0 1 1-2.5 2.5"/>'),
+    _ico('<rect x="5" y="3" width="14" height="18" rx="1.5"/><circle cx="12" cy="12" r="3"/><path d="M12 9v6M9 12h6"/><path d="M5 7h-2M5 17h-2"/>'),
+]
+
+
+def variant_promax():
+    import re
+    global NAV, AREAS, AREA_HREF
+    fonts = face("Plus Jakarta Sans", "plus-jakarta-sans.woff2", "200 800")
+    css = """
+:root{color-scheme:light;--bg:#F7F7F6;--paper:#FFFFFF;--card:#FFFFFF;--ink:#1A1A1A;--prim:#2A2A2A;--mute:#565C62;--soft:#3A3F44;--line:#DEDEDC;--rule:#2A2A2A;--red:#E10600;--red-d:#B80500;--silver:#C0C0C0;--focus:#1A1A1A;
+--font-body:'Plus Jakarta Sans',system-ui,sans-serif;--r:12px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+a,button{cursor:pointer}
+.eyebrow{font-size:13.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+h1,h2,h3{font-weight:800;letter-spacing:-.025em;line-height:1.08;color:var(--ink)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:76px;position:relative}
+.logo{display:flex;align-items:center;min-height:44px}.logo svg{height:26px;width:auto;display:block}
+.nav-links{display:flex;gap:6px;margin-left:auto;align-items:center;font-size:15.5px;font-weight:600}
+.nav-links a{padding:11px 14px;border-radius:8px;transition:background .18s,color .18s}
+.nav-links a:hover{background:#EDEDEB}
+.nav-links a[aria-current=page]{color:var(--ink);background:#EDEDEB}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:10px;font-weight:700;font-size:16px;transition:background .18s,color .18s,box-shadow .18s,transform .12s}
+.btn:active{transform:translateY(1px)}
+.btn.pri{background:var(--red);color:#fff}.btn.pri:hover{background:var(--red-d)}
+.btn.sec{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--prim)}.btn.sec:hover{background:var(--prim);color:#fff}
+.bar .btn{min-height:44px;padding:0 18px;font-size:15px}
+.hero{padding-block:clamp(40px,6vw,88px) clamp(48px,6vw,80px)}
+.hero-grid{display:grid;grid-template-columns:7fr 5fr;gap:clamp(32px,5vw,72px);align-items:center}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--soft)}
+.chip svg{color:var(--red)}
+h1{font-size:clamp(38px,5.2vw,72px);margin:22px 0 22px;max-width:14ch}
+.lead{font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:var(--soft);max-width:54ch}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line);font-size:15px;font-weight:600;color:var(--soft)}
+.trust li{display:flex;align-items:center;gap:8px}.trust svg{color:var(--red);flex:none}
+.visual{position:relative}
+.visual img{width:100%;aspect-ratio:418/350;object-fit:cover;border-radius:var(--r);box-shadow:0 30px 60px -34px rgba(26,26,26,.45)}
+.float{position:absolute;left:-28px;bottom:-26px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;box-shadow:0 18px 40px -22px rgba(26,26,26,.4)}
+.float b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.1}.float>span{font-size:14px;color:var(--mute)}
+section{padding-block:clamp(56px,7vw,104px)}
+.center{text-align:center;max-width:720px;margin:0 auto clamp(32px,4vw,52px)}
+h2{font-size:clamp(28px,3.4vw,46px);margin:12px 0 14px}
+.sec-lead{font-size:18px;color:var(--soft);line-height:1.6}
+.center h2{hyphens:manual}
+.white{background:#fff;border-block:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.stat b{display:block;font-size:clamp(30px,3.2vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.stat>span{display:block;margin-top:8px;font-size:15px;color:var(--mute)}
+.cert{display:flex;gap:16px;align-items:center;margin-top:16px;background:var(--prim);color:#fff;border-radius:var(--r);padding:20px 24px;font-size:17px;font-weight:600}
+.cert svg{flex:none;color:#fff;background:var(--red);border-radius:50%;padding:6px;width:36px;height:36px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.gcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.gcard:hover{border-color:var(--prim);box-shadow:0 18px 36px -24px rgba(26,26,26,.4);transform:translateY(-2px)}
+.gcard .ic{width:52px;height:52px;border-radius:12px;background:#FDECEB;color:var(--red);display:grid;place-items:center}
+.gcard h3{font-size:22px;margin-top:6px}
+.gcard p{color:var(--soft);font-size:16px;line-height:1.55}
+.more{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15.5px;margin-top:auto;padding-top:10px;min-height:44px;color:var(--ink)}
+.p4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,box-shadow .2s,transform .2s}
+.pcard:hover{border-color:var(--prim);box-shadow:0 18px 36px -24px rgba(26,26,26,.4);transform:translateY(-2px)}
+.pcard .ph{aspect-ratio:4/3;padding:20px;background:#fff;border-bottom:1px solid var(--line);overflow:hidden}
+.pcard .ph img{width:100%;height:100%;min-height:0;object-fit:contain}
+.pcard .ph.red{background:#CB0000;padding:0}.pcard .ph.red img{width:100%;height:100%;object-fit:cover}
+.pcard .tx{padding:18px 20px 22px}
+.pcard .code{font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--mute)}
+.pcard h3{font-size:18px;line-height:1.25;margin:6px 0 8px;letter-spacing:-.01em;hyphens:auto}
+.pcard p{font-size:14.5px;color:var(--mute);line-height:1.5}
+.rowend{display:flex;justify-content:center;margin-top:32px}
+.apps{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px);align-items:start}
+.apps ul{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.apps li{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:15.5px;font-weight:600;line-height:1.35}
+.apps li svg{color:var(--red);flex:none;margin-top:1px}
+.simband{background:var(--prim);color:#fff}
+.simband .wrap{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:center}
+.simband h2{color:#fff;margin-top:10px}.simband .eyebrow{color:var(--silver)}
+.simband p{color:#D6D6D6;font-size:18px;line-height:1.6;max-width:52ch}
+.simband ol{display:grid;gap:10px}
+.simband li{display:flex;align-items:center;gap:14px;background:#353535;border:1px solid #4A4A4A;border-radius:10px;padding:16px 18px;font-weight:700;font-size:17px}
+.simband li b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--red);font-size:14px}
+.quote{display:grid;grid-template-columns:6fr 6fr;gap:clamp(32px,5vw,72px);align-items:start}
+.form{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;display:grid;gap:16px}
+.form label{display:grid;gap:6px;font-size:15px;font-weight:700}
+.form input,.form textarea{font:inherit;font-weight:400;padding:12px 14px;min-height:48px;border:1.5px solid #B9B9B6;border-radius:8px;background:#fff;color:var(--ink);width:100%}
+.form input:focus-visible,.form textarea:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-color:var(--prim)}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form small{color:var(--mute);font-size:14px}
+.form .note{display:none;background:#F1F1EF;border-radius:8px;padding:12px 14px;font-size:15px;font-weight:600}
+.form.done .note{display:block}
+.addr{font-style:normal;font-size:17px;line-height:1.7;color:var(--soft);margin-top:22px}
+.addr b{color:var(--ink);font-size:19px}
+.addr a{text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:4px;text-decoration-thickness:2px;font-weight:600;color:var(--ink)}
+footer{background:#fff;border-top:1px solid var(--line);color:var(--mute);font-size:14.5px;padding:22px 0}
+footer .wrap{display:flex;gap:26px;flex-wrap:wrap;align-items:center}footer a{padding:12px 0}footer a:hover{color:var(--ink)}footer .sp{margin-left:auto}
+.simframe{width:100%;height:min(920px,90vh);border:0;display:block;background:#2A2A2A;border-radius:var(--r)}
+#simulator .phero{padding-bottom:32px}
+@media (max-width:1080px){.p4,.stats{grid-template-columns:1fr 1fr}.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
+@media (max-width:900px){
+ .bar{height:64px}.hero-grid,.apps,.simband .wrap,.quote{grid-template-columns:1fr}
+ .visual{max-width:460px}.float{left:12px;bottom:-22px}
+ .g3{grid-template-columns:1fr}.apps ul{grid-template-columns:1fr}
+}
+@media (max-width:560px){.p4,.stats{grid-template-columns:1fr}.acts .btn{width:100%}.form .two{grid-template-columns:1fr}}
+"""
+    sub = """
+:root{--card:#fff}
+.phero{border-bottom:1px solid var(--line);margin-bottom:clamp(40px,5vw,72px);background:#fff}
+.phero h1.pt{max-width:18ch;margin:14px 0 18px;font-size:clamp(34px,4.6vw,64px)}
+.phero figure img{border-radius:var(--r)}
+.plead{color:var(--soft)}
+.m3 b{font-weight:800;letter-spacing:-.03em;font-size:clamp(34px,4.6vw,68px)}
+.f3 h3,.pc h3,.cb .big{font-weight:800;letter-spacing:-.02em}
+.cta p{font-weight:800;letter-spacing:-.02em}
+.pc,.cb{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cta{border-radius:var(--r)}.shots figure{border-radius:var(--r)}
+.cols li,.f3 li{color:var(--soft)}
+"""
+    keep = (NAV, AREAS, AREA_HREF)
+    NAV = [NAV_SHELTER[0], ("#simulator", "Simulator", "Simulator")] + NAV_SHELTER[1:]
+    try:
+        nav = nav_links()
+    finally:
+        NAV = keep[0]
+    logo_svg = (ROOT / "logo" / "svg" / "andair-logo-farbe.svg").read_text(encoding="utf-8")
+    logo_svg = re.sub(r' width="[\d.]+" height="[\d.]+" role="img" aria-labelledby="t">\s*<title id="t">[^<]*</title>', ' aria-hidden="true">', logo_svg).strip()
+    stats = "".join(f'<div class="stat"><b>{t(d, e)}</b><span>{t(ld, le)}</span></div>' for d, e, ld, le in FACTS)
+    groups = "".join(
+        f'<a class="gcard" href="#produkte"><span class="ic">{ICONS_G[i]}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p>'
+        f'<span class="more">{t("Produkte ansehen", "View products")}{ARROW}</span></a>'
+        for i, (d, e, td, te) in enumerate(GROUPS))
+    prods = "".join(
+        f'<a class="pcard" href="#produkte"><div class="ph{" red" if f == "esv-red.jpg" else ""}">{img(f)}</div>'
+        f'<div class="tx"><span class="code">{t("Typ", "Type")} {code}</span><h3>{t(d, e)}</h3><p>{t(td, te)}</p></div></a>'
+        for code, d, e, f, td, te in PRODUCTS)
+    apps = "".join(f"<li>{ICO_CHECK}<span>{t(d, e)}</span></li>" for d, e in APPS)
+    c = CONTACT
+    body = f"""
+<header><div class="wrap bar">
+ <a class="logo" href="#home" aria-label="Andair" translate="no">{logo_svg}</a>
+ <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav}</nav>
+ {lang_switch()}
+ <a class="btn pri" href="#offerte">{t("Offerte anfragen", "Request a quote")}</a>
+ <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">{t("Menü", "Menu")}</button>
+</div></header>
+<main id="main">
+<div class="hero"><div class="wrap hero-grid">
+ <div>
+  <span class="chip">{ICO_CHECK}{t("Typengetestet durch das Labor Spiez", "Type tested by the Spiez Laboratory")}</span>
+  <h1>{t("Schutzraum&shy;technik aus der Schweiz. Seit 1968.", H1[1])}</h1>
+  <p class="lead">{t(*LEAD)}</p>
+  <div class="acts"><a class="btn pri" href="#offerte">{t("Offerte anfragen", "Request a quote")}{ARROW}</a>
+  <a class="btn sec" href="#produkte">{t("Produkte ansehen", "View products")}</a></div>
+  <ul class="trust"><li>{ICO_CHECK}ISO&nbsp;9001:2015</li><li>{ICO_CHECK}{t("Über 50 Jahre Erfahrung", "Over 50 years of experience")}</li><li>{ICO_CHECK}{t("Entwicklung und Fertigung in der Schweiz", "Engineered and made in Switzerland")}</li></ul>
+ </div>
+ <div class="visual">{img("shelter.jpg", eager=True)}
+  <div class="float"><b>{t("3’000+", "3,000+")}</b><span>{t("geschützte Grossanlagen", "large protected installations")}</span></div>
+ </div>
+</div></div>
+
+<section class="white"><div class="wrap">
+ <div class="center"><span class="eyebrow">{t("Nachweis", "Proof")}</span>
+ <h2>{t("Geprüft, genehmigt, garantiert.", "Tested, approved, certified.")}</h2>
+ <p class="sec-lead">{t(*ABOUT)}</p></div>
+ <div class="stats">{stats}</div>
+ <div class="cert">{ICO_CHECK}<span>{t(*SPIEZ)}</span></div>
+</div></section>
+
+<section><div class="wrap">
+ <div class="center"><span class="eyebrow">{t("Sortiment", "Range")}</span>
+ <h2>{t("Alles für den Schutzraum aus einer Hand.", "Everything for the shelter from one source.")}</h2></div>
+ <div class="g3">{groups}</div>
+</div></section>
+
+<section class="white"><div class="wrap">
+ <div class="center"><span class="eyebrow">{t("Produkte", "Products")}</span>
+ <h2>{t("Eine Auswahl aus dem Sortiment.", "A selection from the range.")}</h2></div>
+ <div class="p4">{prods}</div>
+ <div class="rowend"><a class="btn sec" href="#produkte">{t("Alle Produkte ansehen", "View all products")}{ARROW}</a></div>
+</div></section>
+
+<section><div class="wrap apps">
+ <div><span class="eyebrow">{t("Einsatz", "Applications")}</span>
+ <h2>{t("Wo Andair-Komponenten Menschen und Anlagen schützen.", "Where Andair components protect people and plants.")}</h2>
+ <p class="sec-lead">{t("Andair-Systeme und -Komponenten werden in Luftschutz-, Sicherheits- und Kontrollräumen eingesetzt.", "Andair components and systems are used in shelters, safety rooms and control rooms.")}</p></div>
+ <ul>{apps}</ul>
+</div></section>
+
+<section class="simband"><div class="wrap">
+ <div><span class="eyebrow">{t("Ernstfall-Simulator", "Emergency simulator")}</span>
+ <h2>{t("Was hält Ihr Schutzraum aus?", "What can your shelter withstand?")}</h2>
+ <p>{t("Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert.", "Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency.")}</p>
+ <div class="acts"><a class="btn pri" href="#simulator">{t("Simulator starten", "Start the simulator")}{ARROW}</a></div></div>
+ <ol><li><b>1</b>{t("Ernstfall", "Emergency")}</li><li><b>2</b>{t("Schleusenspiel", "Airlock game")}</li><li><b>3</b>{t("Planspiel", "Planning game")}</li></ol>
+</div></section>
+
+<section id="offerte"><div class="wrap quote">
+ <div><span class="eyebrow">{t("Offerte", "Quote")}</span>
+ <h2>{t("Sprechen Sie mit unseren Spezialisten.", "Talk to our specialists.")}</h2>
+ <p class="sec-lead">{t("Beschreiben Sie kurz Ihr Projekt. Wir melden uns mit einer Einschätzung und einer Offerte.", "Briefly describe your project. We will get back to you with an assessment and a quote.")}</p>
+ <address class="addr"><b>Andair AG</b><br>{c["street"]}, {c["city"]}<br>
+ {t("Telefon", "Phone")} <a href="tel:+41523042424">{c["phone"]}</a><br><a href="mailto:{c["mail"]}">{c["mail"]}</a></address></div>
+ <form class="form" id="quote" novalidate>
+  <div class="two"><label>{t("Name", "Name")}<input name="name" autocomplete="name" required></label>
+  <label>{t("Firma", "Company")}<input name="org" autocomplete="organization"></label></div>
+  <label>E-Mail<input type="email" name="email" autocomplete="email" inputmode="email" spellcheck="false" required></label>
+  <label>{t("Ihr Projekt", "Your project")}<textarea name="msg" rows="4"></textarea></label>
+  <button class="btn pri" type="submit">{t("Anfrage vorbereiten", "Prepare enquiry")}{ARROW}</button>
+  <p class="note" role="status" aria-live="polite">{t("Entwurf: Das Formular ist noch nicht angeschlossen, es wurde nichts gesendet. Bitte schreiben Sie an info@andair.ch.", "Draft: the form is not connected yet, nothing was sent. Please write to info@andair.ch.")}</p>
+  <small>{t("Wir verwenden Ihre Angaben nur zur Beantwortung der Anfrage.", "We use your details only to answer your enquiry.")}</small>
+ </form>
+</div></section>
+</main>
+<footer><div class="wrap"><span>© Andair AG</span><a href="#datenschutz">{t("Datenschutz", "Privacy")}</a><a href="#impressum">{t("Impressum", "Imprint")}</a>
+<span class="sp">{t("Entwurf P · nach UI UX Pro Max", "Draft P · based on UI UX Pro Max")}</span></div></footer>
+"""
+    h = page("Andair · Schutzraumtechnik seit 1968", LEAD[0], fonts, css + sub, body, "#FFFFFF")
+    h, n = re.subn(r'<div data-page="schall" id="schall">.*?(?=<div data-page="firma")', "", h, flags=re.S)
+    assert n == 1
+    lead = t("Stellen Sie Ihren Schutzraum zusammen, wählen Sie Standort und Sprengkraft und sehen Sie auf Lagekarte und Schnitt, was im Ernstfall passiert. Mit Ernstfall, Schleusenspiel und Planspiel.",
+             "Configure your shelter, choose the location and the yield, and watch on the situation map and in section what happens in an emergency. With emergency, airlock game and planning game.")
+    pg = f"""<div data-page="simulator" id="simulator">
+ <div class="phero solo"><div class="wrap"><div><span class="eyebrow">{t("Ernstfall-Simulator", "Emergency simulator")}</span>
+ <h1 class="pt">{t("Was hält Ihr Schutzraum aus?", "What can your shelter withstand?")}</h1><p class="plead">{lead}</p></div></div></div>
+ <section class="sub"><div class="wrap"><iframe class="simframe" data-src="simulator.html" title="Andair Ernstfall-Simulator" allow="fullscreen"></iframe></div></section>
+</div>
+"""
+    m2 = '<div data-page="produkte" id="produkte">'
+    assert m2 in h
+    h = h.replace(m2, pg + m2, 1)
+    fav = __import__("base64").b64encode((ROOT / "logo" / "web" / "favicon.svg").read_bytes()).decode()
+    h = h.replace("<title>", f'<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,{fav}">\n<title>', 1)
+    form_js = "(function(){var f=document.getElementById('quote');if(f)f.addEventListener('submit',function(e){e.preventDefault();f.classList.add('done')})})();"
+    h = h.replace("</body>", "<script>" + SIM_JS + form_js + "</script>\n</body>")
+    return h
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1567,4 +1815,10 @@ if __name__ == "__main__":
     if SIM_PALETTE_FILE.exists():
         shutil.copy(SIM_PALETTE_FILE, d5 / "simulator.html")
     print("ok", d5 / "index.html")
+    d6 = ROOT / "varianten" / "p-promax"
+    d6.mkdir(parents=True, exist_ok=True)
+    (d6 / "index.html").write_text(with_alts(variant_promax()), encoding="utf-8")
+    if SIM_PALETTE_FILE.exists():
+        shutil.copy(SIM_PALETTE_FILE, d6 / "simulator.html")
+    print("ok", d6 / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
