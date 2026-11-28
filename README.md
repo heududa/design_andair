@@ -18,10 +18,11 @@ Offen: Die Fotos sind die niedrig aufgelösten Bilder der heutigen Website. Für
 
 ## Design-Skills
 
-Unter `.claude/skills/` liegen drei Claude Design Skills (unveränderte Kopien, Stand 27.11.2026).
+Unter `.claude/skills/` liegen vier Claude Design Skills (unveränderte Kopien). Die ersten drei gestalten, der vierte prüft.
 
 | Skill | Aufruf | Wofür | Quelle | Lizenz |
 |---|---|---|---|---|
 | emil-design-eng | `/emil-design-eng` | UI-Feinschliff, Interaktionen, Animationen | github.com/emilkowalski/skills | MIT |
 | impeccable | `/impeccable` | Layout, Typografie, Farbe, Kritik und Audit | github.com/pbakaus/impeccable | Apache 2.0 |
 | design-taste-frontend | `/design-taste-frontend` | Visuelle Art-Direction, Anti-Einheitslook | github.com/Leonxlnx/taste-skill | MIT |
+| web-design-guidelines | `/web-design-guidelines` | Prüfung fertiger Seiten: Zugänglichkeit, Fokus, Formulare, Bilder, Bedienung | github.com/vercel-labs/agent-skills (Stand 5a37a63, 20.11.2026) | MIT |
