@@ -1386,6 +1386,143 @@ def palette_shelter_version():
     return h.replace("</style>", css + "\n</style>", 1)
 
 
+
+# Animierte Fassung: Schutzraum-Website in der Palette, mit Bewegung
+SCHEME_SVG = """<svg viewBox="0 0 560 400" role="img" aria-label="Schnitt durch einen Schutzraum" class="scheme-svg">
+<rect x="0" y="120" width="560" height="280" fill="rgba(192,192,192,.045)"/>
+<line x1="0" y1="120" x2="560" y2="120" stroke="#C0C0C0" stroke-width="2"/>
+<path d="M232 120V84l34-26 34 26v36" fill="none" stroke="#6E6E6E" stroke-width="3"/>
+<rect x="130" y="210" width="330" height="150" fill="#232323" stroke="#C0C0C0" stroke-width="8"/>
+<g fill="#C0C0C0"><circle cx="215" cy="318" r="8"/><path d="M205 356v-16a10 10 0 0 1 20 0v16z"/><circle cx="250" cy="318" r="8"/><path d="M240 356v-16a10 10 0 0 1 20 0v16z"/><circle cx="285" cy="322" r="6.5"/><path d="M277 356v-13a8 8 0 0 1 16 0v13z"/></g>
+<g class="part" data-k="0">
+ <path d="M400 96V206M424 96V206" fill="none" stroke="currentColor" stroke-width="4"/>
+ <path d="M388 88H436M394 96H430" fill="none" stroke="currentColor" stroke-width="4"/>
+ <circle cx="412" cy="210" r="16" fill="#2A2A2A" stroke="currentColor" stroke-width="5"/>
+ <path d="M401 199l22 22M423 199l-22 22" stroke="currentColor" stroke-width="4"/>
+ <g class="waves" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M468 14A44 44 0 0 0 512 58"/><path d="M444 14A68 68 0 0 0 512 82"/><path d="M420 14A92 92 0 0 0 512 106"/></g>
+ <text x="474" y="160" class="num">01</text>
+</g>
+<g class="part" data-k="1">
+ <path d="M412 228V250" stroke="currentColor" stroke-width="4"/>
+ <rect x="372" y="250" width="80" height="70" rx="10" fill="#2A2A2A" stroke="currentColor" stroke-width="5"/>
+ <path d="M384 268H440M384 285H440M384 302H440" stroke="currentColor" stroke-width="3"/>
+ <circle cx="352" cy="285" r="11" fill="#2A2A2A" stroke="currentColor" stroke-width="4"/>
+ <path class="flow-line" d="M340 285H176" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="10 10"/>
+ <path d="M300 285v12M250 285v12M200 285v12" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+ <text x="398" y="346" class="num">02</text>
+</g>
+<g class="part" data-k="2">
+ <path d="M40 120V352H126M72 120V300H126" fill="none" stroke="currentColor" stroke-width="4"/>
+ <rect x="124" y="302" width="12" height="48" fill="#2A2A2A"/>
+ <rect class="door" x="121" y="298" width="18" height="56" fill="currentColor"/>
+ <path d="M150 22l-16 34h18l-13 30" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+ <path class="shield" d="M96 196A236 236 0 0 1 494 196" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="4 9"/>
+ <text x="84" y="270" class="num">03</text>
+</g>
+</svg>"""
+ANIM_CSS = """
+/* ---------- Bewegung ---------- */
+[data-page].on{animation:pagein .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes pagein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* Logo: die Daecher senken sich ueber die Punkte */
+.logo svg #symbol path,.logo svg #symbol-2 path{animation:roof .7s .15s cubic-bezier(.2,.8,.2,1) both}
+.logo svg #symbol-2 path{animation-delay:.3s}
+.logo svg circle{transform-box:fill-box;transform-origin:center;animation:dot .45s .7s cubic-bezier(.3,1.5,.5,1) both}
+.logo svg #symbol-2 circle{animation-delay:.85s}
+@keyframes roof{from{transform:translateY(-90px);opacity:0}to{transform:none;opacity:1}}
+@keyframes dot{from{transform:scale(0)}to{transform:scale(1)}}
+/* Einstieg: das Bild faehrt auf wie ein Tor */
+html.motion .shot>img:first-child{animation:gate 1s .25s cubic-bezier(.7,0,.2,1) both}
+html.motion .shot::before{animation:block .7s .9s cubic-bezier(.2,.7,.2,1) both;transform-origin:left bottom}
+html.motion .shot img.shot2{animation:pop .5s 1.2s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes gate{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes block{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+html.motion .hero .lead,html.motion .hero .acts{animation:up .7s .45s cubic-bezier(.2,.7,.2,1) both}
+html.motion .hero .acts{animation-delay:.6s}
+html.motion .band .wrap>div{animation:up .6s cubic-bezier(.2,.7,.2,1) both}
+html.motion .band .wrap>div:nth-child(1){animation-delay:.7s}html.motion .band .wrap>div:nth-child(2){animation-delay:.8s}
+html.motion .band .wrap>div:nth-child(3){animation-delay:.9s}html.motion .band .wrap>div:nth-child(4){animation-delay:1s}
+.band b{font-variant-numeric:tabular-nums}
+/* Simulator: Druckwelle hinter der Karte */
+.sim{overflow:hidden}.sim .wrap{position:relative}
+.simcard{position:relative}
+.simcard::before,.simcard::after{content:"";position:absolute;left:50%;top:50%;width:120%;aspect-ratio:1;margin:-60% 0 0 -60%;border:2px solid #E10600;border-radius:50%;opacity:0;pointer-events:none;z-index:-1}
+.sim.inview .simcard::before{animation:wave 2.4s cubic-bezier(.2,.6,.3,1) 3}
+.sim.inview .simcard::after{animation:wave 2.4s .8s cubic-bezier(.2,.6,.3,1) 3}
+@keyframes wave{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+/* Schnitt durch den Schutzraum: die Teile leuchten beim Scrollen nacheinander auf */
+.scene{display:grid;grid-template-columns:6fr 6fr;gap:64px;align-items:start;border-top:1px solid var(--line)}
+.scheme{position:sticky;top:112px;padding:36px 0}
+.scheme-svg{width:100%;height:auto;display:block}
+.scheme-svg .part{color:#6E6E6E;transition:color .45s}
+.scheme-svg .part.on{color:#E10600}
+.scheme-svg .num{font-family:var(--cond);font-weight:700;font-size:24px;fill:currentColor}
+.scheme-svg .door{transition:transform .6s cubic-bezier(.7,0,.2,1);transform-box:fill-box;transform-origin:center top}
+.scheme-svg .part:not(.on) .door{transform:translateY(-34px)}
+.scheme-svg .waves path{stroke-dasharray:160;stroke-dashoffset:160}
+.scheme-svg .part.on .waves path{animation:draw 1.4s cubic-bezier(.2,.7,.2,1) 3 both}
+.scheme-svg .part.on .waves path:nth-child(2){animation-delay:.2s}.scheme-svg .part.on .waves path:nth-child(3){animation-delay:.4s}
+@keyframes draw{0%{stroke-dashoffset:160;opacity:1}60%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:.25}}
+.scheme-svg .part.on .flow-line{animation:flow .8s linear 6}
+@keyframes flow{to{stroke-dashoffset:-20}}
+.scheme-svg .shield{opacity:0;transition:opacity .5s}.scheme-svg .part.on .shield{opacity:1}
+.scene .rows{border-top:0}
+.scene .rows .row,.scene .rows .row:first-child,.scene .rows .row:not(:first-child){grid-template-columns:56px 1fr 36px;gap:10px 18px;min-height:46vh;align-content:center;padding:28px 0;opacity:.4;transition:opacity .4s,color .2s}
+.scene .rows .row.on,.scene .rows .row:hover{opacity:1}
+.scene .rows .row .n{grid-column:1;grid-row:1}
+.scene .rows .row h3{grid-column:2;grid-row:1}
+.scene .rows .row p{grid-column:2;grid-row:2;max-width:40ch}
+.scene .rows .row .arr{grid-column:3;grid-row:1}
+.scene .rows .row:last-child{border-bottom:0}
+/* Von der Bedrohung zum Schutz: Spalten folgen einander */
+html.motion .flow .col{opacity:0;transform:translateX(-24px);transition:opacity .6s,transform .6s cubic-bezier(.2,.7,.2,1)}
+html.motion .flow.inview .col{opacity:1;transform:none}
+html.motion .flow.inview .col:nth-child(2){transition-delay:.25s}html.motion .flow.inview .col:nth-child(3){transition-delay:.5s}
+@media (max-width:900px){
+ .scene{grid-template-columns:1fr;gap:0}
+ .scheme{top:64px;z-index:5;background:var(--bg);padding:14px 0 10px;border-bottom:1px solid var(--line)}
+ .scheme-svg{max-height:34vh;margin:0 auto}
+ .scene .rows .row,.scene .rows .row:first-child,.scene .rows .row:not(:first-child){min-height:52vh;grid-template-columns:40px 1fr 28px}
+}
+"""
+ANIM_JS = """
+(function(){var R=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,H=document.documentElement;
+if(!R)H.classList.add('motion');
+function seen(el,cls,th){if(!el)return;if(!('IntersectionObserver' in window)){el.classList.add(cls);return}
+ var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){el.classList.add(cls);o.disconnect()}})},{threshold:th||.35});o.observe(el)}
+seen(document.querySelector('.sim'),'inview',.4);seen(document.querySelector('.flow'),'inview',.3);
+/* Kennzahlen zaehlen hoch */
+function count(sp){var t=sp.textContent,m=t.match(/^(\\D*)(\\d[\\d\\u2019',.]*)(\\D*)$/);if(!m||/[A-Za-z]/.test(m[1]))return;
+ var sep=(m[2].match(/[\\u2019',.]/)||[''])[0],n=parseInt(m[2].replace(/\\D/g,''),10),from=n>1900&&n<2100?n-60:0,t0=null;
+ function fmt(v){var s=String(v);return sep&&s.length>3?s.slice(0,-3)+sep+s.slice(-3):s}
+ function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1300),e=1-Math.pow(1-p,3);sp.textContent=m[1]+fmt(Math.round(from+(n-from)*e))+m[3];if(p<1)requestAnimationFrame(step)}
+ sp.textContent=m[1]+fmt(from)+m[3];setTimeout(function(){requestAnimationFrame(step)},900)}
+if(!R)document.querySelectorAll('#home .band b span').forEach(count);
+/* Schnitt: aktives Teil folgt der Zeile in der Bildmitte */
+var rows=[].slice.call(document.querySelectorAll('.scene .rows .row')),parts=[].slice.call(document.querySelectorAll('.scheme-svg .part'));
+function act(i){rows.forEach(function(r,k){r.classList.toggle('on',k===i)});parts.forEach(function(p,k){p.classList.toggle('on',k===i)})}
+if(rows.length){act(0);
+ if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)act(rows.indexOf(e.target))})},{rootMargin:'-48% 0px -48% 0px'});rows.forEach(function(r){io.observe(r)})}
+ rows.forEach(function(r,k){r.addEventListener('mouseenter',function(){act(k)});r.addEventListener('focus',function(){act(k)})})}
+})();
+"""
+
+
+def animated_version():
+    import re
+    h = palette_shelter_version()
+    h = h.replace("</style>", ANIM_CSS + "\n</style>", 1)
+    h, n = re.subn(r'<div class="rows">(.*?)</div>\n</div></section>',
+                   lambda m: f'<div class="scene"><div class="scheme">{SCHEME_SVG}</div><div class="rows">{m.group(1)}</div></div>\n</div></section>',
+                   h, count=1, flags=re.S)
+    assert n == 1
+    h = h.replace("</body>", "<script>" + ANIM_JS + "</script>\n</body>")
+    for a, b in (("· Nur Schutzraum", "· Nur Schutzraum · animiert"),):
+        h = h.replace(a, b)
+    return h
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1424,4 +1561,10 @@ if __name__ == "__main__":
     if SIM_PALETTE_FILE.exists():
         shutil.copy(SIM_PALETTE_FILE, d4 / "simulator.html")
     print("ok", d4 / "index.html")
+    d5 = ROOT / "varianten" / "b-bunker-schutzraum-animiert"
+    d5.mkdir(parents=True, exist_ok=True)
+    (d5 / "index.html").write_text(with_alts(animated_version()), encoding="utf-8")
+    if SIM_PALETTE_FILE.exists():
+        shutil.copy(SIM_PALETTE_FILE, d5 / "simulator.html")
+    print("ok", d5 / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
