@@ -12,7 +12,10 @@
 @font-face{font-family:'Plex Mono';src:url(../../assets/fonts/plex-mono-500.woff2) format('woff2');font-weight:500;font-style:normal;font-display:swap;}
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:96px}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{text-wrap:balance}
+[data-page]:focus{outline:none}
 body{margin:0;font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
@@ -209,7 +212,7 @@ footer .sp{margin-left:auto}
 <a class="skip" href="#main"><span class="de" lang="de">Zum Inhalt</span><span class="en" lang="en">Skip to content</span></a>
 
 <header><div class="wrap bar">
- <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation"><a href="#schutzraum"><span class="de" lang="de">Schutzraumtechnik</span><span class="en" lang="en">Shelter technology</span></a><a href="#produkte"><span class="de" lang="de">Produkte</span><span class="en" lang="en">Products</span></a><a href="#schall"><span class="de" lang="de">Schall und Schwingung</span><span class="en" lang="en">Sound and vibration</span></a><a href="#lufttechnik"><span class="de" lang="de">Lufttechnik</span><span class="en" lang="en">Ventilation</span></a><a href="#firma"><span class="de" lang="de">Firma</span><span class="en" lang="en">Company</span></a></nav>
  <div class="lang" role="group" aria-label="Sprache / Language"><button type="button" data-l="de" aria-pressed="true">DE</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
  <a class="btn pri" href="#kontakt"><span class="de" lang="de">Kontakt</span><span class="en" lang="en">Contact</span></a>
@@ -225,11 +228,11 @@ footer .sp{margin-left:auto}
    <div class="acts"><a class="btn pri" href="#produkte"><span class="de" lang="de">Produkte ansehen</span><span class="en" lang="en">View products</span><svg class="arr" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
    <a class="btn sec" href="#kontakt"><span class="de" lang="de">Anfrage senden</span><span class="en" lang="en">Send an enquiry</span></a></div>
   </div>
-  <div class="stage"><img src="../../assets/img/gak-d.jpg" width="900" height="694" alt="Gasdichte Absperrklappe GAK-D mit Handhebel" data-alt-de="Gasdichte Absperrklappe GAK-D mit Handhebel" data-alt-en="Gastight shut-off valve GAK-D with hand lever">
+  <div class="stage"><img src="../../assets/img/gak-d.jpg" width="900" height="694" alt="Gasdichte Absperrklappe GAK-D mit Handhebel" data-alt-de="Gasdichte Absperrklappe GAK-D mit Handhebel" data-alt-en="Gastight shut-off valve GAK-D with hand lever" fetchpriority="high">
    <div class="tag mono"><span><span class="de" lang="de">Typ</span><span class="en" lang="en">Type</span> GAK-D</span><span><span class="de" lang="de">Gasdichte Absperrklappe</span><span class="en" lang="en">Gastight shut-off valve</span></span></div>
   </div>
  </div>
- <div class="facts"><div><b><span class="de" lang="de">1968</span><span class="en" lang="en">1968</span></b><span><span class="de" lang="de">Gegründet in der Schweiz</span><span class="en" lang="en">Founded in Switzerland</span></span></div><div><b><span class="de" lang="de">3’000+</span><span class="en" lang="en">3,000+</span></b><span><span class="de" lang="de">geschützte Grossanlagen</span><span class="en" lang="en">large protected installations</span></span></div><div><b><span class="de" lang="de">55+</span><span class="en" lang="en">55+</span></b><span><span class="de" lang="de">Länder weltweit</span><span class="en" lang="en">countries worldwide</span></span></div><div><b><span class="de" lang="de">ISO 9001</span><span class="en" lang="en">ISO 9001</span></b><span><span class="de" lang="de">zertifiziert nach 9001:2015</span><span class="en" lang="en">certified to 9001:2015</span></span></div></div>
+ <div class="facts"><div><b><span class="de" lang="de">1968</span><span class="en" lang="en">1968</span></b><span><span class="de" lang="de">Gegründet in der Schweiz</span><span class="en" lang="en">Founded in Switzerland</span></span></div><div><b><span class="de" lang="de">3’000+</span><span class="en" lang="en">3,000+</span></b><span><span class="de" lang="de">geschützte Grossanlagen</span><span class="en" lang="en">large protected installations</span></span></div><div><b><span class="de" lang="de">55+</span><span class="en" lang="en">55+</span></b><span><span class="de" lang="de">Länder weltweit</span><span class="en" lang="en">countries worldwide</span></span></div><div><b><span class="de" lang="de">ISO&nbsp;9001</span><span class="en" lang="en">ISO&nbsp;9001</span></b><span><span class="de" lang="de">zertifiziert nach 9001:2015</span><span class="en" lang="en">certified to 9001:2015</span></span></div></div>
 </div></div>
 
 <section><div class="wrap">
@@ -257,11 +260,11 @@ footer .sp{margin-left:auto}
 <section class="kontakt"><div class="wrap">
  <div><span class="mono"><span class="de" lang="de">Kontakt</span><span class="en" lang="en">Contact</span></span><h2 style="margin-top:18px"><span class="de" lang="de">Sprechen Sie mit unseren Spezialisten.</span><span class="en" lang="en">Talk to our specialists.</span></h2></div>
  <address>Andair AG<br>Schaubenstrasse 4<br>CH-8450 Andelfingen<br><br>
- <span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span> <a href="tel:+41523042424">+41 52 304 24 24</a><br><a href="mailto:info@andair.ch">info@andair.ch</a></address>
+ <span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span> <a href="tel:+41523042424">+41&nbsp;52&nbsp;304&nbsp;24&nbsp;24</a><br><a href="mailto:info@andair.ch">info@andair.ch</a></address>
 </div></section>
 </div>
 <div data-page="schutzraum" id="schutzraum">
- <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">A wie absolute Verantwortung</span><span class="en" lang="en">A for absolute responsibility</span></span><h1 class="pt"><span class="de" lang="de">Schutzraum&shy;technik</span><span class="en" lang="en">Shelter technology</span></h1><p class="plead"><span class="de" lang="de">In keinem Bereich ist kompromisslose Sicherheit wichtiger als hier. Absolute Funktionstüchtigkeit ist nicht nur Ziel, sondern Notwendigkeit. Hier zählt Technik, auf die man sich verlassen kann.</span><span class="en" lang="en">No other area needs such uncompromising safety. Perfect operation reliability is not only a goal but a must. Reliable technique is required.</span></p></div><figure><img src="../../assets/img/shelter.jpg" width="418" height="350" alt="Rotes Panzertor am Eingang eines Schutzraums" data-alt-de="Rotes Panzertor am Eingang eines Schutzraums" data-alt-en="Red blast door at a shelter entrance"></figure></div></div>
+ <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">A wie absolute Verantwortung</span><span class="en" lang="en">A for absolute responsibility</span></span><h1 class="pt"><span class="de" lang="de">Schutzraum&shy;technik</span><span class="en" lang="en">Shelter technology</span></h1><p class="plead"><span class="de" lang="de">In keinem Bereich ist kompromisslose Sicherheit wichtiger als hier. Absolute Funktionstüchtigkeit ist nicht nur Ziel, sondern Notwendigkeit. Hier zählt Technik, auf die man sich verlassen kann.</span><span class="en" lang="en">No other area needs such uncompromising safety. Perfect operation reliability is not only a goal but a must. Reliable technique is required.</span></p></div><figure><img src="../../assets/img/shelter.jpg" width="418" height="350" alt="Rotes Panzertor am Eingang eines Schutzraums" data-alt-de="Rotes Panzertor am Eingang eines Schutzraums" data-alt-en="Red blast door at a shelter entrance" fetchpriority="high"></figure></div></div>
  <section class="sub"><div class="wrap"><div class="m3"><div><b><span class="de" lang="de">Sicher</span><span class="en" lang="en">Safe</span></b></div><div><b><span class="de" lang="de">Einfach</span><span class="en" lang="en">Simple</span></b></div><div><b><span class="de" lang="de">Robust</span><span class="en" lang="en">Rugged</span></b></div></div><p class="after"><span class="de" lang="de">Und geprüft, genehmigt, garantiert. Andair AG erbringt diese Spitzenleistung seit über 50 Jahren.</span><span class="en" lang="en">And tested, approved, certified. Andair AG has been providing this outstanding performance for over 50 years.</span></p></div></section>
  <section class="sub"><div class="wrap">
   <h2><span class="de" lang="de">Führend in Schutzraum&shy;technologie</span><span class="en" lang="en">Leading in shelter technology</span></h2>
@@ -294,14 +297,14 @@ footer .sp{margin-left:auto}
 </div>
 
 <div data-page="lufttechnik" id="lufttechnik">
- <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">A wie Atemluft</span><span class="en" lang="en">A for aeration</span></span><h1 class="pt"><span class="de" lang="de">Lufttechnik Komponenten</span><span class="en" lang="en">Ventilation components</span></h1><p class="plead"><span class="de" lang="de">Belüftungstechnik stellt komplexe Anforderungen und verlangt Spezialisten, die Ihnen Luft verschaffen. Wir garantieren Know-how und Top-Qualität.</span><span class="en" lang="en">Ventilation technique makes high demands and requires specialists to ensure fresh air. We guarantee know-how and top quality.</span></p></div><figure><img src="../../assets/img/pipes.jpg" width="440" height="350" alt="Grüne Lüftungsrohre einer Schutzanlage" data-alt-de="Grüne Lüftungsrohre einer Schutzanlage" data-alt-en="Green ventilation ducts of a protected installation"></figure></div></div>
+ <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">A wie Atemluft</span><span class="en" lang="en">A for aeration</span></span><h1 class="pt"><span class="de" lang="de">Lufttechnik Komponenten</span><span class="en" lang="en">Ventilation components</span></h1><p class="plead"><span class="de" lang="de">Belüftungstechnik stellt komplexe Anforderungen und verlangt Spezialisten, die Ihnen Luft verschaffen. Wir garantieren Know-how und Top-Qualität.</span><span class="en" lang="en">Ventilation technique makes high demands and requires specialists to ensure fresh air. We guarantee know-how and top quality.</span></p></div><figure><img src="../../assets/img/pipes.jpg" width="440" height="350" alt="Grüne Lüftungsrohre einer Schutzanlage" data-alt-de="Grüne Lüftungsrohre einer Schutzanlage" data-alt-en="Green ventilation ducts of a protected installation" fetchpriority="high"></figure></div></div>
  <section class="sub"><div class="wrap"><div class="m3"><div><b><span class="de" lang="de">Sicher</span><span class="en" lang="en">Safe</span></b></div><div><b><span class="de" lang="de">Einfach</span><span class="en" lang="en">Simple</span></b></div><div><b><span class="de" lang="de">Robust</span><span class="en" lang="en">Rugged</span></b></div></div><p class="after"><span class="de" lang="de">Wir übernehmen Verantwortung. Wir sorgen für gute Luft.</span><span class="en" lang="en">We take responsibility. We ensure life protection.</span></p></div></section>
  <section class="sub"><div class="wrap wide"><img src="../../assets/img/pipes-strip.jpg" width="960" height="172" alt="Lüftungsanlage mit Gasfiltern und grünen Rohrleitungen" data-alt-de="Lüftungsanlage mit Gasfiltern und grünen Rohrleitungen" data-alt-en="Ventilation plant with gas filters and green ducts" loading="lazy"></div></section>
  <section class="sub"><div class="wrap"><div class="cta"><p><span class="de" lang="de">Sprechen Sie mit unseren Spezialisten.</span><span class="en" lang="en">Talk to our specialists.</span></p><a class="btn pri" href="#kontakt"><span class="de" lang="de">Kontakt aufnehmen</span><span class="en" lang="en">Get in touch</span><svg class="arr" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></div></div></section>
 </div>
 
 <div data-page="firma" id="firma">
- <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">Schützt die Luft für Sie</span><span class="en" lang="en">Protects the air for you</span></span><h1 class="pt"><span class="de" lang="de">Über uns</span><span class="en" lang="en">About us</span></h1><p class="plead"><span class="de" lang="de">Andair wurde 1968 gegründet und ist der kompetente Spezialist für Schutzraumtechnik. Mehr als 3’000 geschützte Grossanlagen in über 55 Ländern weltweit sind mit Andair-Komponenten ausgerüstet.</span><span class="en" lang="en">Andair was founded in 1968 and is the competent specialist in shelter technology. More than 3,000 large protected installations in over 55 countries worldwide have been equipped with Andair components.</span></p></div><figure><img src="../../assets/img/closures.jpg" width="527" height="600" alt="Schutzraumabschluss mit Panzertür" data-alt-de="Schutzraumabschluss mit Panzertür" data-alt-en="Shelter closure with blast door"></figure></div></div>
+ <div class="phero"><div class="wrap"><div><span class="mono"><span class="de" lang="de">Schützt die Luft für Sie</span><span class="en" lang="en">Protects the air for you</span></span><h1 class="pt"><span class="de" lang="de">Über uns</span><span class="en" lang="en">About us</span></h1><p class="plead"><span class="de" lang="de">Andair wurde 1968 gegründet und ist der kompetente Spezialist für Schutzraumtechnik. Mehr als 3’000 geschützte Grossanlagen in über 55 Ländern weltweit sind mit Andair-Komponenten ausgerüstet.</span><span class="en" lang="en">Andair was founded in 1968 and is the competent specialist in shelter technology. More than 3,000 large protected installations in over 55 countries worldwide have been equipped with Andair components.</span></p></div><figure><img src="../../assets/img/closures.jpg" width="527" height="600" alt="Schutzraumabschluss mit Panzertür" data-alt-de="Schutzraumabschluss mit Panzertür" data-alt-en="Shelter closure with blast door" fetchpriority="high"></figure></div></div>
  <section class="sub"><div class="wrap"><div class="m3"><div><b><span class="de" lang="de">Sicher</span><span class="en" lang="en">Safe</span></b></div><div><b><span class="de" lang="de">Einfach</span><span class="en" lang="en">Simple</span></b></div><div><b><span class="de" lang="de">Robust</span><span class="en" lang="en">Rugged</span></b></div></div><p class="after"><span class="de" lang="de">Kleine und grosse Anlagen werden mit dem Andair-Produktsortiment erfolgreich vor vielen Bedrohungen und Gefahren geschützt und belüftet.</span><span class="en" lang="en">With the Andair range of products large and small shelters are ventilated and successfully protected against many threats and endangerments.</span></p></div></section>
  <section class="sub"><div class="wrap"><div class="cgrid">
   <div class="cb"><span class="mono">Management</span><span class="big">Michael Riedo</span><span class="ty" style="display:block;margin-top:8px;color:var(--mute)">CEO</span></div>
@@ -315,8 +318,8 @@ footer .sp{margin-left:auto}
  <div class="phero solo"><div class="wrap"><div><span class="mono"><span class="de" lang="de">Schützt die Luft für Sie</span><span class="en" lang="en">Protects the air for you</span></span><h1 class="pt"><span class="de" lang="de">Kontakt</span><span class="en" lang="en">Contact</span></h1><p class="plead"><span class="de" lang="de">Bei Fragen oder Anregungen zögern Sie nicht, mit uns Kontakt aufzunehmen.</span><span class="en" lang="en">If you have any queries please do not hesitate to contact us.</span></p></div></div></div>
  <section class="sub"><div class="wrap"><div class="cgrid">
  <address class="cb"><span class="mono"><span class="de" lang="de">Adresse</span><span class="en" lang="en">Address</span></span><span class="big">Andair AG<br>Schaubenstrasse 4<br>CH-8450 Andelfingen<br><span class="de" lang="de">Schweiz</span><span class="en" lang="en">Switzerland</span></span></address>
- <div class="cb"><span class="mono"><span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span></span><a class="big" href="tel:+41523042424">+41 52 304 24 24</a>
- <span class="ty" style="display:block;margin-top:14px;color:var(--mute)">Fax +41 52 304 24 25</span></div>
+ <div class="cb"><span class="mono"><span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span></span><a class="big" href="tel:+41523042424">+41&nbsp;52&nbsp;304&nbsp;24&nbsp;24</a>
+ <span class="ty" style="display:block;margin-top:14px;color:var(--mute)">Fax +41&nbsp;52&nbsp;304&nbsp;24&nbsp;25</span></div>
  <div class="cb"><span class="mono">E-Mail</span><a class="big" href="mailto:info@andair.ch">info@andair.ch</a></div>
 </div></div></section>
 </div>
@@ -325,7 +328,7 @@ footer .sp{margin-left:auto}
  <div class="phero solo"><div class="wrap"><div><span class="mono"><span class="de" lang="de">Andair AG</span><span class="en" lang="en">Andair AG</span></span><h1 class="pt"><span class="de" lang="de">Impressum</span><span class="en" lang="en">Imprint</span></h1><p class="plead"><span class="de" lang="de">Andair AG, Schaubenstrasse 4, CH-8450 Andelfingen, Schweiz.</span><span class="en" lang="en">Andair AG, Schaubenstrasse 4, CH-8450 Andelfingen, Switzerland.</span></p></div></div></div>
  <section class="sub"><div class="wrap legal">
   <h2>Management</h2><p>Michael Riedo, CEO</p>
-  <h2><span class="de" lang="de">Kontakt</span><span class="en" lang="en">Contact</span></h2><p><span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span> +41 52 304 24 24<br>Fax +41 52 304 24 25<br><a href="mailto:info@andair.ch">info@andair.ch</a></p>
+  <h2><span class="de" lang="de">Kontakt</span><span class="en" lang="en">Contact</span></h2><p><span class="de" lang="de">Telefon</span><span class="en" lang="en">Phone</span> +41&nbsp;52&nbsp;304&nbsp;24&nbsp;24<br>Fax +41&nbsp;52&nbsp;304&nbsp;24&nbsp;25<br><a href="mailto:info@andair.ch">info@andair.ch</a></p>
   <h2>Copyright</h2><p><span class="de" lang="de">Jegliche textliche Inhalte, das Logo und das Design der Website sind Eigentum der Andair AG. Texte oder Bilder dürfen ohne ausdrückliche Bewilligung der Andair AG nicht anderweitig verwendet oder vervielfältigt werden.</span><span class="en" lang="en">All textual contents, the logo and design of the website are owned by Andair AG. Texts and pictures must not be used or reproduced without written consent of Andair AG.</span></p>
  </div></section>
 </div>
@@ -343,15 +346,17 @@ footer .sp{margin-left:auto}
 <script>
 (function(){var h=document.documentElement,k='andair-lang',s=null;try{s=localStorage.getItem(k)}catch(e){}
 function set(l){h.dataset.lang=l;h.lang=l;document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l)});
-document.querySelectorAll('img[data-alt-'+l+']').forEach(function(i){i.alt=i.getAttribute('data-alt-'+l)});try{localStorage.setItem(k,l)}catch(e){}}
-set(s==='en'?'en':'de');
+document.querySelectorAll('img[data-alt-'+l+']').forEach(function(i){i.alt=i.getAttribute('data-alt-'+l)});try{localStorage.setItem(k,l)}catch(e){}if(window.__title)window.__title()}
+var nl=String((navigator.languages&&navigator.languages[0])||navigator.language||'de').slice(0,2).toLowerCase();
+set(s==='en'||s==='de'?s:(nl==='de'?'de':'en'));
 document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l)})});
 var pages=[].slice.call(document.querySelectorAll('[data-page]'));
-function go(){var n=(location.hash||'#home').slice(1),p=document.getElementById(n);
+var T0=document.title;window.__title=function(){var p=document.querySelector('[data-page].on');if(!p)return;var h=p.querySelector('h1 .'+h0.dataset.lang);document.title=p.id==='home'||!h?T0:h.textContent.replace(/­/g,'')+' · Andair AG'};var h0=document.documentElement;
+function go(ev){var n=(location.hash||'#home').slice(1),p=document.getElementById(n);
 if(!p||!p.hasAttribute('data-page')){if(document.querySelector('[data-page].on'))return;p=document.getElementById('home')}
 pages.forEach(function(x){x.classList.toggle('on',x===p)});
 document.querySelectorAll('.nav-links a').forEach(function(a){if(a.getAttribute('href')==='#'+p.id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-window.scrollTo(0,0)}
+window.scrollTo(0,0);window.__title();if(ev){p.setAttribute('tabindex','-1');p.focus({preventScroll:true})}}
 window.addEventListener('hashchange',go);go();
 var m=document.querySelector('.menu-btn'),n=document.querySelector('.nav-links');
 if(m){m.addEventListener('click',function(){var o=n.classList.toggle('open');m.setAttribute('aria-expanded',o)});

@@ -34,7 +34,7 @@ FACTS = [
     ("1968", "1968", "Gegründet in der Schweiz", "Founded in Switzerland"),
     ("3’000+", "3,000+", "geschützte Grossanlagen", "large protected installations"),
     ("55+", "55+", "Länder weltweit", "countries worldwide"),
-    ("ISO 9001", "ISO 9001", "zertifiziert nach 9001:2015", "certified to 9001:2015"),
+    ("ISO&nbsp;9001", "ISO&nbsp;9001", "zertifiziert nach 9001:2015", "certified to 9001:2015"),
 ]
 AREAS = [
     ("Schutzraumtechnik", "Shelter technology",
@@ -116,7 +116,7 @@ SIZE = {"gak-d.jpg": (900, 694), "esv-red.jpg": (400, 255), "gasfilter.jpg": (43
 def img(name, cls="", eager=False):
     w, h = SIZE[name]
     de, _ = ALT[name]
-    load = "" if eager else ' loading="lazy"'
+    load = ' fetchpriority="high"' if eager else ' loading="lazy"'
     return f'<img src="{A}/img/{name}" width="{w}" height="{h}" alt="{de}"{load}{" class=" + chr(34) + cls + chr(34) if cls else ""}>'
 
 
@@ -124,7 +124,10 @@ ARROW = '<svg class="arr" viewBox="0 0 16 16" width="16" height="16" aria-hidden
 
 BASE_CSS = """
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:96px}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{text-wrap:balance}
+[data-page]:focus{outline:none}
 body{margin:0;font-family:var(--font-body);background:var(--bg);color:var(--ink);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
@@ -157,15 +160,17 @@ h1,h2,h3{overflow-wrap:break-word}
 JS = """
 (function(){var h=document.documentElement,k='andair-lang',s=null;try{s=localStorage.getItem(k)}catch(e){}
 function set(l){h.dataset.lang=l;h.lang=l;document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l)});
-document.querySelectorAll('img[data-alt-'+l+']').forEach(function(i){i.alt=i.getAttribute('data-alt-'+l)});try{localStorage.setItem(k,l)}catch(e){}}
-set(s==='en'?'en':'de');
+document.querySelectorAll('img[data-alt-'+l+']').forEach(function(i){i.alt=i.getAttribute('data-alt-'+l)});try{localStorage.setItem(k,l)}catch(e){}if(window.__title)window.__title()}
+var nl=String((navigator.languages&&navigator.languages[0])||navigator.language||'de').slice(0,2).toLowerCase();
+set(s==='en'||s==='de'?s:(nl==='de'?'de':'en'));
 document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l)})});
 var pages=[].slice.call(document.querySelectorAll('[data-page]'));
-function go(){var n=(location.hash||'#home').slice(1),p=document.getElementById(n);
+var T0=document.title;window.__title=function(){var p=document.querySelector('[data-page].on');if(!p)return;var h=p.querySelector('h1 .'+h0.dataset.lang);document.title=p.id==='home'||!h?T0:h.textContent.replace(/\u00ad/g,'')+' · Andair AG'};var h0=document.documentElement;
+function go(ev){var n=(location.hash||'#home').slice(1),p=document.getElementById(n);
 if(!p||!p.hasAttribute('data-page')){if(document.querySelector('[data-page].on'))return;p=document.getElementById('home')}
 pages.forEach(function(x){x.classList.toggle('on',x===p)});
 document.querySelectorAll('.nav-links a').forEach(function(a){if(a.getAttribute('href')==='#'+p.id)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-window.scrollTo(0,0)}
+window.scrollTo(0,0);window.__title();if(ev){p.setAttribute('tabindex','-1');p.focus({preventScroll:true})}}
 window.addEventListener('hashchange',go);go();
 var m=document.querySelector('.menu-btn'),n=document.querySelector('.nav-links');
 if(m){m.addEventListener('click',function(){var o=n.classList.toggle('open');m.setAttribute('aria-expanded',o)});
@@ -223,8 +228,8 @@ def with_alts(html):
 
 
 CONTACT = dict(
-    street="Schaubenstrasse 4", city="CH-8450 Andelfingen", phone="+41 52 304 24 24",
-    fax="+41 52 304 24 25", mail="info@andair.ch",
+    street="Schaubenstrasse 4", city="CH-8450 Andelfingen", phone="+41&nbsp;52&nbsp;304&nbsp;24&nbsp;24",
+    fax="+41&nbsp;52&nbsp;304&nbsp;24&nbsp;25", mail="info@andair.ch",
 )
 
 # =====================================================================
@@ -346,7 +351,7 @@ footer .sp{margin-left:auto}
     c = CONTACT
     body = f"""
 <header><div class="wrap bar">
- <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -410,7 +415,7 @@ def variant_b():
     fonts = "\n".join([face("Barlow Condensed", f"barlow-condensed-{w}.woff2", w) for w in (500, 600, 700)]
                       + [face("Barlow", f"barlow-{w}.woff2", w) for w in (400, 500)])
     css = """
-:root{--bg:#0E0F10;--panel:#191B1D;--ink:#F1EFEA;--mute:#A0A4A8;--line:#2C2F33;--red:#E1261C;--red-d:#B81D15;--focus:#fff;
+:root{color-scheme:dark;--bg:#0E0F10;--panel:#191B1D;--ink:#F1EFEA;--mute:#A0A4A8;--line:#2C2F33;--red:#E1261C;--red-d:#B81D15;--focus:#fff;
 --font-body:'Barlow',system-ui,sans-serif;--cond:'Barlow Condensed','Arial Narrow',sans-serif}
 .cond{font-family:var(--cond);text-transform:uppercase;letter-spacing:.01em}
 .eyebrow{font-family:var(--cond);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:15px;color:var(--red)}
@@ -444,7 +449,7 @@ h1 i:nth-child(2){animation-delay:.08s}h1 i:nth-child(3){animation-delay:.16s;co
 section{padding-block:clamp(80px,10vw,140px)}
 h2{font-family:var(--cond);font-weight:700;text-transform:uppercase;font-size:clamp(42px,6vw,92px);line-height:.92;letter-spacing:-.005em;margin:14px 0 56px;max-width:14ch}
 .rows{border-top:1px solid var(--line)}
-.row{display:grid;grid-template-columns:90px 5fr 5fr 60px;gap:32px;align-items:center;padding:34px 0;border-bottom:1px solid var(--line);position:relative;transition:padding .25s cubic-bezier(.2,.7,.2,1),color .2s}
+.row{display:grid;grid-template-columns:90px 5fr 5fr 60px;gap:32px;align-items:center;padding:34px 0;border-bottom:1px solid var(--line);position:relative;transition:color .2s}
 .row::before{content:"";position:absolute;inset:0 calc(-1*clamp(20px,4vw,56px));background:var(--red);transform:scaleY(0);transform-origin:bottom;transition:transform .28s cubic-bezier(.2,.7,.2,1);z-index:-1}
 .row:hover::before{transform:scaleY(1)}
 .row .n{font-family:var(--cond);font-weight:600;font-size:22px;color:var(--red);transition:color .2s}.row:hover .n{color:#fff}
@@ -528,7 +533,7 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
     c = CONTACT
     body = f"""
 <header><div class="wrap bar">
- <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -687,7 +692,7 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
     c = CONTACT
     body = f"""
 <header><div class="wrap"><div class="bar">
- <a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>
+ <a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>
  <nav class="nav-links" id="nav" aria-label="Hauptnavigation">{nav_links()}</nav>
  {lang_switch()}
  <a class="btn pri" href="#kontakt">{t("Kontakt", "Contact")}</a>
@@ -1034,7 +1039,7 @@ NAV_SHELTER = [
     ("#produkte", "Produkte", "Products"),
     ("#firma", "Firma", "Company"),
 ]
-OLD_LOGO = '<a class="logo" href="#home" aria-label="Andair AG">Andair AG</a>'
+OLD_LOGO = '<a class="logo" href="#home" aria-label="Andair AG" translate="no">Andair AG</a>'
 LOGOS = {
     # A: das A als Dach mit Querbalken, weiss im roten Quadrat
     "a-werkplan": ('<svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true"><rect width="40" height="40" fill="#D7261E"/>'
@@ -1073,7 +1078,7 @@ def shelter_version(slug, fn):
     h = re.sub(r'<div data-page="schall" id="schall">.*?(?=<div data-page="firma")', "", h, flags=re.S)
     mark, css = LOGOS[slug]
     assert OLD_LOGO in h
-    h = h.replace(OLD_LOGO, f'<a class="logo" href="#home" aria-label="Andair AG">{mark}</a>')
+    h = h.replace(OLD_LOGO, f'<a class="logo" href="#home" aria-label="Andair AG" translate="no">{mark}</a>')
     h = h.replace("</style>", css + "\n</style>", 1)
     for a, b in SWAPS:
         h = h.replace(a, b)
