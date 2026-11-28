@@ -248,6 +248,30 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
 @media (max-width:1400px) and (min-width:1241px){.nav-links{gap:18px!important;font-size:15.5px!important}.bar{gap:20px}}
 @media (max-width:1240px){.menu-btn{display:inline-flex;align-items:center}header .nav-links{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch!important;gap:0!important;background:var(--bg);border-bottom:1px solid var(--line);padding:8px clamp(20px,4vw,56px) 20px}header .nav-links.open{display:flex}header .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);font-size:18px}.bar{gap:14px}.bar .lang{margin-left:auto}.bar>.btn{display:none}}
 @media (max-width:900px){.sim .wrap{grid-template-columns:1fr;gap:32px}.simcard ol{grid-template-columns:1fr}.simframe{height:1100px}}
+
+/* Feinschliff nur fuer diese Fassung */
+section{padding-block:clamp(72px,8vw,116px)}
+h2{max-width:20ch;margin-bottom:44px}
+.eyebrow::before{content:"";display:inline-block;width:8px;height:8px;background:var(--red);margin-right:11px;vertical-align:1px}
+.hero-grid{gap:88px}
+.shot{margin-left:48px}
+.shot img.shot2{position:absolute;left:-64px;bottom:-44px;width:46%;aspect-ratio:400/255;border:6px solid var(--bg);animation:up .8s .25s cubic-bezier(.2,.7,.2,1) both}
+.shot>img:first-child{animation:up .8s .1s cubic-bezier(.2,.7,.2,1) both}
+.sim{background-color:#0B0C0D;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;background-position:center top}
+.sim h2{max-width:13ch;hyphens:manual}
+.simcard{box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.rows .row:first-child{align-items:end;padding:44px 0 48px}
+.rows .row:first-child p{padding-bottom:8px}
+.t3 img{right:14%;top:8%;height:60%}
+.spiez{grid-template-columns:1fr;gap:32px;margin-top:72px}
+.spiez img{order:-1;width:100%;aspect-ratio:960/172;object-fit:cover}
+.spiez p{border-left:4px solid var(--red);padding-left:24px;max-width:38ch}
+.firma h2{max-width:none;margin-bottom:0}
+.kontakt h2{margin-bottom:0}
+#simulator .phero{padding-block:40px 30px}
+#simulator .phero h1.pt{font-size:clamp(38px,4.6vw,68px);max-width:none;margin:12px 0 14px}
+#simulator .plead{font-size:18px;max-width:70ch}
+@media (max-width:900px){.hero-grid{gap:32px}.shot{margin-left:0}.shot img.shot2{left:auto;right:-10px;bottom:-30px;width:44%}h2{margin-bottom:32px}}
 .simframe{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:min(920px,90vh)}#simulator .sub .wrap{max-width:none;padding-inline:0}#simulator .phero{margin-bottom:0;border-bottom:0;padding-bottom:36px}#simulator .sub{padding-bottom:0}
 </style>
 </head>
@@ -271,7 +295,7 @@ footer .wrap{display:flex;gap:28px;flex-wrap:wrap;align-items:center}footer a{pa
    <div class="acts"><a class="btn pri" href="#produkte"><span class="de" lang="de">Produkte ansehen</span><span class="en" lang="en">View products</span><svg class="arr" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
    <a class="btn sec" href="#kontakt"><span class="de" lang="de">Anfrage senden</span><span class="en" lang="en">Send an enquiry</span></a></div>
   </div>
-  <div class="shot"><img src="../../assets/img/shelter.jpg" width="418" height="350" alt="Rotes Panzertor am Eingang eines Schutzraums" data-alt-de="Rotes Panzertor am Eingang eines Schutzraums" data-alt-en="Red blast door at a shelter entrance" fetchpriority="high"></div>
+  <div class="shot"><img src="../../assets/img/shelter.jpg" width="418" height="350" alt="Rotes Panzertor am Eingang eines Schutzraums" data-alt-de="Rotes Panzertor am Eingang eines Schutzraums" data-alt-en="Red blast door at a shelter entrance" fetchpriority="high"><img src="../../assets/img/esv-red.jpg" width="400" height="255" alt="Explosionsschutzventil ESV 4" data-alt-de="Explosionsschutzventil ESV 4" data-alt-en="Explosion protection valve ESV 4" fetchpriority="high" class="shot2"></div>
  </div>
  <div class="band"><div class="wrap"><div><b><span class="de" lang="de">1968</span><span class="en" lang="en">1968</span></b><span><span class="de" lang="de">Gegründet in der Schweiz</span><span class="en" lang="en">Founded in Switzerland</span></span></div><div><b><span class="de" lang="de">3’000+</span><span class="en" lang="en">3,000+</span></b><span><span class="de" lang="de">geschützte Grossanlagen</span><span class="en" lang="en">large protected installations</span></span></div><div><b><span class="de" lang="de">55+</span><span class="en" lang="en">55+</span></b><span><span class="de" lang="de">Länder weltweit</span><span class="en" lang="en">countries worldwide</span></span></div><div><b><span class="de" lang="de">ISO&nbsp;9001</span><span class="en" lang="en">ISO&nbsp;9001</span></b><span><span class="de" lang="de">zertifiziert nach 9001:2015</span><span class="en" lang="en">certified to 9001:2015</span></span></div></div></div>
 </div>

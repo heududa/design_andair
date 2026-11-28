@@ -1163,6 +1163,33 @@ document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener
 """
 
 
+SIM_POLISH = """
+/* Feinschliff nur fuer diese Fassung */
+section{padding-block:clamp(72px,8vw,116px)}
+h2{max-width:20ch;margin-bottom:44px}
+.eyebrow::before{content:"";display:inline-block;width:8px;height:8px;background:var(--red);margin-right:11px;vertical-align:1px}
+.hero-grid{gap:88px}
+.shot{margin-left:48px}
+.shot img.shot2{position:absolute;left:-64px;bottom:-44px;width:46%;aspect-ratio:400/255;border:6px solid var(--bg);animation:up .8s .25s cubic-bezier(.2,.7,.2,1) both}
+.shot>img:first-child{animation:up .8s .1s cubic-bezier(.2,.7,.2,1) both}
+.sim{background-color:#0B0C0D;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;background-position:center top}
+.sim h2{max-width:13ch;hyphens:manual}
+.simcard{box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.rows .row:first-child{align-items:end;padding:44px 0 48px}
+.rows .row:first-child p{padding-bottom:8px}
+.t3 img{right:14%;top:8%;height:60%}
+.spiez{grid-template-columns:1fr;gap:32px;margin-top:72px}
+.spiez img{order:-1;width:100%;aspect-ratio:960/172;object-fit:cover}
+.spiez p{border-left:4px solid var(--red);padding-left:24px;max-width:38ch}
+.firma h2{max-width:none;margin-bottom:0}
+.kontakt h2{margin-bottom:0}
+#simulator .phero{padding-block:40px 30px}
+#simulator .phero h1.pt{font-size:clamp(38px,4.6vw,68px);max-width:none;margin:12px 0 14px}
+#simulator .plead{font-size:18px;max-width:70ch}
+@media (max-width:900px){.hero-grid{gap:32px}.shot{margin-left:0}.shot img.shot2{left:auto;right:-10px;bottom:-30px;width:44%}h2{margin-bottom:32px}}
+"""
+
+
 def sim_card(href, ext=False):
     tgt = ' target="_blank" rel="noopener"' if ext else ""
     return f"""<a class="simcard" href="{href}"{tgt}>
@@ -1184,8 +1211,11 @@ def simulator_version():
     css = SIM_CSS
     for a, b in (("#FF7A1A", "#E1261C"), ("#0A1117", "#0E0F10"), ("#111B24", "#191B1D"), ("#18252F", "#222527"), ("#2A3945", "#2C2F33"), ("#8FA1AF", "#A0A4A8")):
         css = css.replace(a, b)
-    css += ".simframe{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:min(920px,90vh)}#simulator .sub .wrap{max-width:none;padding-inline:0}#simulator .phero{margin-bottom:0;border-bottom:0;padding-bottom:36px}#simulator .sub{padding-bottom:0}"
+    css += SIM_POLISH + ".simframe{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);height:min(920px,90vh)}#simulator .sub .wrap{max-width:none;padding-inline:0}#simulator .phero{margin-bottom:0;border-bottom:0;padding-bottom:36px}#simulator .sub{padding-bottom:0}"
     h = h.replace("</style>", css + "\n</style>", 1)
+    shot = f'<div class="shot">{img("shelter.jpg", eager=True)}</div>'
+    assert shot in h
+    h = h.replace(shot, f'<div class="shot">{img("shelter.jpg", eager=True)}{img("esv-red.jpg", "shot2", eager=True)}</div>', 1)
     # Schwerpunkt Schutzraum in der Bereichsliste
     h = h.replace('<span class="n">01</span><h3>', '<span class="n">01</span><h3><span class="tagf">' + t("Schwerpunkt", "Core business") + "</span><br>", 1)
     h = h.replace("Drei Fachgebiete. Ein Hersteller.", "Schutzraum zuerst. Dazu Schall und Luft.").replace(
