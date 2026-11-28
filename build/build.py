@@ -1253,6 +1253,38 @@ def simulator_version():
     return h
 
 
+
+# Helle Fassung der Bunker-Simulator-Seite
+LIGHT_CSS = """
+/* Helle Fassung */
+:root{color-scheme:light;--bg:#F2F0EB;--panel:#E6E3DC;--ink:#141516;--mute:#5E6266;--line:#D3CFC6;--red:#C8201A;--red-d:#A51913;--focus:#141516;--card:#fff;--soft:#33373A;--rule:#141516}
+header{background:rgba(242,240,235,.93)}
+.lead,.col li,.cols li,.f3 li,.kontakt address,.sim p{color:#33373A}
+.btn.pri:hover{background:#141516;color:#fff}
+.row:hover{color:#fff}
+.rows .row:not(:first-child) h3{color:#5E6266}
+.rows .row:hover h3,.rows .row:hover p{color:#fff}
+.firma{background:#141516;color:#F2F0EB}
+.firma h2 i:last-child{color:#E1261C}
+.kontakt address b{color:#141516}
+.kontakt address a:hover,footer a:hover{color:var(--red)}
+.sim{background-color:#E9E6DF;background-image:linear-gradient(rgba(20,21,22,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(20,21,22,.06) 1px,transparent 1px)}
+.simcard{color:#F1EFEA;border-color:#E1261C;box-shadow:0 30px 60px -30px rgba(20,21,22,.55)}
+.simcard .k,.simcard strong em,.simcard li b{color:#FF5A4F}
+.pc,.cb{box-shadow:inset 0 0 0 1px var(--line)}
+.tile.t3,.tile.t4{box-shadow:inset 0 0 0 1px var(--line)}
+"""
+
+
+def light_version():
+    h = simulator_version()
+    h = h.replace("</style>", LIGHT_CSS + "\n</style>", 1)
+    h = h.replace('<meta name="theme-color" content="#0E0F10">', '<meta name="theme-color" content="#F2F0EB">')
+    for a, b in (("Entwurf B · Bunker · Simulator", "Entwurf B · Bunker · Simulator · Hell"), ("Draft B · Bunker · Simulator", "Draft B · Bunker · Simulator · Light")):
+        h = h.replace(a, b)
+    return h
+
+
 if __name__ == "__main__":
     for slug, fn in (("a-werkplan", variant_a), ("b-bunker", variant_b), ("c-editorial", variant_c)):
         d = ROOT / "varianten" / slug
@@ -1273,4 +1305,10 @@ if __name__ == "__main__":
         (ROOT / "dist").mkdir(exist_ok=True)
         shutil.copy(SIM_FILE, ROOT / "dist" / "simulator.html")
     print("ok", d / "index.html")
+    d2 = ROOT / "varianten" / "b-bunker-simulator-hell"
+    d2.mkdir(parents=True, exist_ok=True)
+    (d2 / "index.html").write_text(with_alts(light_version()), encoding="utf-8")
+    if SIM_FILE.exists():
+        shutil.copy(SIM_FILE, d2 / "simulator.html")
+    print("ok", d2 / "index.html")
     (ROOT / "index.html").write_text(OVERVIEW, encoding="utf-8")
