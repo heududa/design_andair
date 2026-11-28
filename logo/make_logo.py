@@ -51,13 +51,13 @@ PAD = 28
 for name, (roof, dot, ink) in SCHEMES.items():
     # nur Zeichen
     save(f'andair-zeichen-{name}.svg', svg(symbol(roof, dot), 256, 256, 'Andair Zeichen'))
-    # Logo in Versalien: das Zeichen ist das erste A, das zweite A hat dieselbe Geometrie mit Querbalken
+    # Logo in Versalien: beide A sind das Zeichen (Dach ueber Punkt)
     TR = 0.03                                    # Laufweite fuer Versalien
     sx = PAD - 8 * K; sy = BASE - 224 * K
     x = PAD + 240 * K + SIZE * 0.035
     d1, w1 = word('ND', SIZE, x, BASE, TR)
     x += w1 + SIZE * 0.035
-    a2 = f'<path fill="{ink}" fill-rule="evenodd" transform="translate({x - 8 * K:g} {sy:g}) scale({K:g})" d="{A2}"/>'
+    a2 = symbol(roof, dot, x - 8 * K, sy, K).replace('id="symbol"', 'id="symbol-2"')
     x += 240 * K + SIZE * 0.035
     d2, w2 = word('IR', SIZE, x, BASE, TR)
     W = round(x + w2 + PAD); top = BASE - CAPH - PAD
